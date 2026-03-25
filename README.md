@@ -52,6 +52,14 @@ Regarding our GUI-VLA models—which are capable of running inference directly o
 
 Mano-P builds upon the complete technical framework of the Mano project (see [Mano Technical Report](https://arxiv.org/abs/2509.17336)), employing the Mano-Action bidirectional self-reinforcement learning method, three-stage progressive training (SFT → Offline Reinforcement Learning → Online Reinforcement Learning), "think-act-verify" loop reasoning mechanism, and a closed-loop data circulation system to achieve high-precision GUI understanding and operation capabilities. The edge version is optimized through mixed-precision quantization, visual token pruning, and edge inference adaptation, enabling large-scale parameter models to run efficiently on edge devices like Mac mini/MacBook/computing sticks.
 
+## 🎯 Key Highlights
+
+- **#1 on OSWorld Benchmark**: Mano-P 1.0-72B achieves **58.2% success rate on OSWorld**, ranking first among all specialized GUI agent models, outperforming the second-place opencua-72b (45.0%) by 13.2 percentage points
+- **Leading on WebRetriever Protocol I**: Mano-P 1.0 scores **41.7 NavEval**, surpassing Gemini 2.5 Pro Computer Use (40.9) and Claude 4.5 Computer Use (31.3)
+- **Fully Local Execution**: Runs inference locally on **Apple M4 chip with 32GB RAM** (Mac mini or MacBook). No cloud API calls required. All screenshots and task data stay on-device
+- **High-Performance Inference**: The 4B quantized model (w4a16) achieves **476 tokens/s prefill** and **76 tokens/s decode** on Apple M4 Pro, with only 4.3GB peak memory usage
+- **Autonomous Long-Task Execution**: Supports **100+ step** enterprise-level business process automation without internet connectivity
+
 ---
 
 ## 🎬 Use Case Demonstrations

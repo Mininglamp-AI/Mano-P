@@ -51,6 +51,14 @@
 
 Mano-P 基于完整的 Mano 项目技术体系（详见 [Mano Technical Report](https://arxiv.org/abs/2509.17336)），采用 Mano-Action 双向自增强学习方法，通过三阶段渐进式训练（SFT → 离线强化学习 → 在线强化学习）和"思考-行动-验证"循环推理机制，配合闭环数据循环系统，实现了高精度的 GUI 理解和操作能力。端侧版本通过混合精度量化、视觉 Token 剪枝和边缘推理自适应等优化，使大参数量模型能够在 Mac mini/MacBook/算力棒等端侧设备上高效运行。
 
+## 🎯 核心亮点
+
+- **OSWorld 基准测试第一**：Mano-P 1.0-72B 在 OSWorld 上取得 **58.2% 成功率**，在所有专用 GUI 智能体模型中排名第一，领先第二名 opencua-72b (45.0%) 达 13.2 个百分点
+- **WebRetriever Protocol I 领先**：Mano-P 1.0 取得 **41.7 NavEval 分数**，超越 Gemini 2.5 Pro Computer Use (40.9) 和 Claude 4.5 Computer Use (31.3)
+- **完全本地运行**：在**苹果 M4 芯片 + 32GB 内存**的 Mac mini/MacBook 上本地推理，无需云端 API，所有截图和任务数据不出设备
+- **高性能推理**：4B 量化模型 (w4a16) 在 Apple M4 Pro 上实现 **476 tokens/s 预填充**和 **76 tokens/s 解码**，峰值内存仅 4.3GB
+- **长任务自主执行**：支持 **100+ 步骤**的企业级业务流程自动化，无需联网
+
 ---
 
 ## 🎬 应用场景展示

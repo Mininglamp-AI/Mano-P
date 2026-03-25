@@ -1,10 +1,10 @@
-<div align="center">                                                                                                                    
-    <h1>                                                                                                                                  
-      <img src="./pics/logo.png" alt="Mano-P Logo" height="60" style="vertical-align: -15px;">                                            
-      Mano-P 1.0                                                                                                                          
-    </h1>                                                                                                                                 
-    <p><strong>GUI-Aware Agent Model for Edge Devices</strong></p>                                                                               
-</div>   
+<div align="center">
+    <h1>
+      <img src="./pics/logo.png" alt="Mano-P Logo" height="60" style="vertical-align: -15px;">
+      Mano-P 1.0
+    </h1>
+    <p><strong>GUI-Aware Agent Model for Edge Devices</strong></p>
+</div>
 
 <hr>
 
@@ -41,8 +41,6 @@ As an open-source project, Mano-P is being released in a phased, progressive man
 
 Regarding our GUI-VLA models—which are capable of running inference directly on Mac mini and MacBook devices—we currently support two deployment methods: First, direct deployment on Mac mini or MacBook models equipped with an M4 chip and 32GB or more of RAM; and second, deployment utilizing a compute stick connected via a USB 4.0 port or higher. We will be releasing detailed instructions for both deployment methods in the near future, and we plan to expand our support to include additional deployment options in the future.
 
-Mano-P builds upon the complete technical framework of the Mano project (see Mano Technical Report), employing the Mano-Action bidirectional self-reinforcement learning method, three-stage progressive training (SFT → Offline RL → Online RL), "think-act-verify" loop reasoning mechanism, and a closed-loop data circulation system to achieve high-precision GUI understanding and operation capabilities. The edge version is optimized through mixed-precision quantization, visual token pruning, and edge inference adaptation, enabling large-scale parameter models to run efficiently on edge devices like Macmini/Macbook/Computing Sticks.
-
 ### Main Capabilities
 
 - **Complex GUI Automation**: Autonomously complete complex interface operations containing hundreds of interactive elements
@@ -52,7 +50,7 @@ Mano-P builds upon the complete technical framework of the Mano project (see Man
 
 ### Technical Background
 
-Mano-P builds upon the complete technical framework of the Mano project (see [Mano Technical Report](https://arxiv.org/abs/2509.17336)), employing the Mano-Action bidirectional self-reinforcement learning method, three-stage progressive training (SFT → Offline RL → Online RL), "think-act-verify" loop reasoning mechanism, and a closed-loop data circulation system to achieve high-precision GUI understanding and operation capabilities. The edge version is optimized through mixed-precision quantization, visual token pruning, and edge inference adaptation, enabling large-scale parameter models to run efficiently on edge devices like computing sticks.
+Mano-P builds upon the complete technical framework of the Mano project (see [Mano Technical Report](https://arxiv.org/abs/2509.17336)), employing the Mano-Action bidirectional self-reinforcement learning method, three-stage progressive training (SFT → Offline Reinforcement Learning → Online Reinforcement Learning), "think-act-verify" loop reasoning mechanism, and a closed-loop data circulation system to achieve high-precision GUI understanding and operation capabilities. The edge version is optimized through mixed-precision quantization, visual token pruning, and edge inference adaptation, enabling large-scale parameter models to run efficiently on edge devices like Mac mini/MacBook/computing sticks.
 
 ---
 

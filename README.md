@@ -91,6 +91,8 @@ Mano-P, The small-sized end side GUI-VLA model can run directly on your computer
 
 ### Scenario 4: Daily Life and Entertainment Applications
 
+https://github.com/user-attachments/assets/ff11fd5b-9ee7-4a74-b8e6-3ad3071d3af8
+
 Mano-P excels not only in enterprise-level business automation but also integrates seamlessly into daily life. This video demonstrates the system's application in Mahjong gameplay: through pure visual understanding of the game interface, it autonomously completes tile recognition, analysis, and decision-making. This case validates Mano-P's general-purpose capabilities beyond work scenarios—from office automation to leisure entertainment, from structured data processing to unstructured game interactions, truly realizing the vision of "AI for Personal." One model, adapting to every aspect of life and work.
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://youtu.be/P4-wE3p7mB8)

@@ -109,7 +109,7 @@ Mano-P，小尺寸端上GUI-VLA模型，直接运行在你的电脑上，支持M
 <details>
 <summary>📊 展开评测数据</summary>
 
-#### [OSWorld](https://os-world.github.io/) - Specialized Mode
+#### [OSWorld](https://os-world.github.io/) - Specialized Models
 
 <table>
   <thead>

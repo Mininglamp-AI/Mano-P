@@ -1026,6 +1026,10 @@ mano-cua stop
 - ✅ Suitable for script integration and batch processing
 - ✅ Can be embedded in shell scripts
 
+**Project Resources**:
+
+- **Homebrew Tap**: [github.com/Mininglamp-AI/homebrew-tap](https://github.com/Mininglamp-AI/homebrew-tap)
+
 ---
 
 ### 2️⃣ mano-client (Python SDK) ⏳ Planned
@@ -1109,7 +1113,7 @@ Agent: [Automatically invokes mano-skill to complete GUI operation]
 
 **Project Resources**:
 
-- **Source Code**: [github.com/HanningWang/mano-skill](https://github.com/HanningWang/mano-skill)
+- **Source Code**: [github.com/Mininglamp-AI/mano-skill](https://github.com/Mininglamp-AI/mano-skill)
 - **ClawHub Home**: [clawhub.ai/HanningWang/mano-cua](https://clawhub.ai/HanningWang/mano-cua)
 - **Version**: v1.0.0
 - **License**: MIT
@@ -1390,7 +1394,7 @@ See [ClawHub - Mano-CUA](https://clawhub.ai/HanningWang/mano-cua)
 - ⚠️ Only screenshots and task descriptions sent to `mano.mininglamp.com`
 - ✅ No local files, clipboard contents, or credentials accessed
 
-**Transparency:** Full client is [open-source](https://github.com/HanningWang/mano-skill) for audit
+**Transparency:** Full client is [open-source](https://github.com/Mininglamp-AI/mano-skill) for audit
 
 </details>
 

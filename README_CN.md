@@ -1009,6 +1009,10 @@ mano-cua stop
 - ✅ 适合脚本集成和批处理
 - ✅ 可在 shell 脚本中嵌入使用
 
+**项目资源**：
+
+- **Homebrew Tap**：[github.com/Mininglamp-AI/homebrew-tap](https://github.com/Mininglamp-AI/homebrew-tap)
+
 ---
 
 ### 2️⃣ mano-client（Python SDK）⏳ 计划中
@@ -1092,7 +1096,7 @@ Agent: [自动调用 mano-skill 完成 GUI 操作]
 
 **项目资源**：
 
-- **源代码**：[github.com/HanningWang/mano-skill](https://github.com/HanningWang/mano-skill)
+- **源代码**：[https://github.com/Mininglamp-AI/mano-skill](https://github.com/Mininglamp-AI/mano-skill)
 - **ClawHub 主页**：[clawhub.ai/HanningWang/mano-cua](https://clawhub.ai/HanningWang/mano-cua)
 - **版本**：v1.0.0
 - **许可证**：MIT
@@ -1373,7 +1377,7 @@ brew tap HanningWang/tap && brew install mano-cua
 - ⚠️ 仅截图和任务描述发送到 `mano.mininglamp.com`
 - ✅ 不访问本地文件、剪贴板内容或凭证
 
-**透明度：** 完整客户端[开源](https://github.com/HanningWang/mano-skill)可供审计
+**透明度：** 完整客户端[开源](https://github.com/Mininglamp-AI/mano-skill)可供审计
 
 </details>
 

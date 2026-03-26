@@ -90,6 +90,8 @@ Mano-P，小尺寸端上GUI-VLA模型，直接运行在你的电脑上，支持M
 
 ### 场景 4: 生活娱乐场景应用
 
+https://github.com/user-attachments/assets/397a0552-9611-4d74-9f24-99544da272b6
+
 Mano-P不仅能胜任企业级业务自动化，更能融入日常生活。本视频展示系统在麻将游戏中的应用：通过纯视觉理解游戏界面，自主完成识牌、分析和决策。这一案例验证了Mano-P在非工作场景下的通用能力——从办公自动化到休闲娱乐，从结构化数据处理到非结构化游戏交互，真正实现"AI for Personal"的愿景。一个模型，适配生活与工作的方方面面。
 
 [![Watch on Bilibili](https://img.shields.io/badge/Watch%20on-Bilibili-00A1D6?logo=bilibili&logoColor=white)](https://www.bilibili.com/video/BV13hXsB9Eo7/?share_source=copy_web&vd_source=a259b97248b3127e1c3761e841cae8e1)

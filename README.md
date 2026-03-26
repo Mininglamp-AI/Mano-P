@@ -4,6 +4,7 @@
       Mano-P 1.0
     </h1>
     <p><strong>GUI-Aware Agent Model for Edge Devices</strong></p>
+    <p><strong>AI for Personal</strong></p>
 </div>
 
 <hr>
@@ -58,7 +59,7 @@ Mano-P builds upon the complete technical framework of the Mano project (see [Ma
 - **Leading on WebRetriever Protocol I**: Mano-P 1.0 scores **41.7 NavEval**, surpassing Gemini 2.5 Pro Computer Use (40.9) and Claude 4.5 Computer Use (31.3)
 - **Fully Local Execution**: Runs inference locally on **Apple M4 chip with 32GB RAM** (Mac mini or MacBook). No cloud API calls required. All screenshots and task data stay on-device
 - **High-Performance Inference**: The 4B quantized model (w4a16) achieves **476 tokens/s prefill** and **76 tokens/s decode** on Apple M4 Pro, with only 4.3GB peak memory usage
-- **Autonomous Long-Task Execution**: Supports **100+ step** enterprise-level business process automation without internet connectivity
+- **Autonomous Long-Task Execution**: Supports **complex business processes** with end-to-end automation without internet connectivity
 
 ---
 
@@ -1560,13 +1561,14 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
 | **Use Scenarios**   | ✅ All-platform GUI    | ✅ Cross-platform apps   | ⚠️ Web apps only             | ⚠️ Specific systems             |
 | **Long Task Plan**  | ✅ Autonomous planning | ✅ Autonomous planning   | ✅ Visual flow orchestration | ❌ Needs preset workflows       |
 | **Response Speed**  | ✅ Instant response    | ✅ Local/cloud execution | ⚠️ Cloud latency             | ✅ Instant response             |
-| **Deployment Cost** | ⚠️ Needs compute stick | ✅ Open source & free    | ⚠️ Subscription fee          | ✅ Low cost                     |
+| **Deployment Cost** | ✅ Low-cost entry      | ✅ Open source & free    | ⚠️ Subscription fee          | ✅ Low cost                     |
 | **Robustness**      | ✅ UI change adaptive  | ✅ LLM adaptive          | ⚠️ Limited adaptation        | ❌ UI change needs reconfig     |
 
 ### Core Competitiveness
 
-1. **Edge Large Model + Zero-Configuration Deployment**
-   - 7B-32B large parameter models running completely locally
+1. **Edge Large Model + Flexible Deployment**
+   - 4B model runs directly on Mac (M4 chip + 32GB RAM)
+   - Large parameter models (72B) supported via computing stick
    - No API key configuration needed, ready out-of-the-box
    - Significant advantage over OpenClaw (requires user model configuration) and Manus (cloud calls)
 
@@ -1576,7 +1578,7 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
    - Supports desktop software, 3D applications, professional tools, and non-standard GUIs
 
 3. **Offline Long-Task Autonomous Planning**
-   - Fully offline reasoning for 100+ step complex processes
+   - Fully offline reasoning for complex business processes
    - Autonomous decision-making and error correction without internet connection
    - Unique advantage over Manus (cloud latency) and traditional RPA (needs preset workflows)
 

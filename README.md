@@ -97,14 +97,6 @@ Mano-P excels not only in enterprise-level business automation but also integrat
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://youtu.be/P4-wE3p7mB8)
 
-### Scenario 5: Strategic Game-Theoretic Applications
-
-https://github.com/user-attachments/assets/10fa9327-5f74-45bb-85b4-325ea4ded68c
-
-Following Mahjong, we further demonstrate Mano-P's application in **Texas Hold'em poker**. Unlike Mahjong where information is relatively complete, Texas Hold'em is a classic **imperfect-information game**—Mano-P must reason with only the community cards and its own hole cards visible, using pure visual understanding to interpret the board, chip stacks, pot size, and opponents' betting actions, then autonomously perform probability estimation, positional analysis, and betting decisions (call/raise/fold). This case further validates Mano-P's reasoning capabilities in **high-uncertainty decision scenarios**—from deterministic office workflows to probabilistic strategic reasoning, a single model covers the full spectrum from work to entertainment, from certainty to uncertainty, fulfilling the core promise of "AI for Personal."
-
-[![Watch on YouTube](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://youtu.be/h-G1-UZkjHM?si=HOfkzFNlBBc9I03h)
-
 ---
 
 ## Benchmark Performance

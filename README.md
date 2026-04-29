@@ -48,6 +48,8 @@ Regarding our GUI-VLA models—which are capable of running inference directly o
 - **Cross-System Data Integration**: Extract and integrate multi-source data through pure visual interaction without API interfaces
 - **Long-Task Planning Execution**: Support enterprise-level business process automation of dozens to hundreds of steps
 - **Intelligent Report Generation**: Automatically generate structured documents such as data analysis reports and work summaries
+- **Edge-Native Inference**: Efficient on-device execution on Apple Silicon via INT8 activation quantization ([Cider](#-inference-sdk))
+- **Autonomous Application Construction**: Drives end-to-end software construction pipelines through visual GUI operation ([Mano-AFK](#-applications))
 
 ### Technical Background
 
@@ -60,6 +62,8 @@ Mano-P builds upon the complete technical framework of the Mano project (see [Ma
 - **Fully Local Execution**: Runs inference locally on **Apple M4 chip with 32GB RAM** (Mac mini or MacBook). No cloud API calls required. All screenshots and task data stay on-device
 - **High-Performance Inference**: The 4B quantized model (w4a16) achieves **476 tokens/s prefill** and **76 tokens/s decode** on Apple M4 Pro, with only 4.3GB peak memory usage
 - **Autonomous Long-Task Execution**: Supports **complex business processes** with end-to-end automation without internet connectivity
+- **Edge-Native INT8 Acceleration**: Companion [Cider](#-inference-sdk) SDK adds the W8A8 / W4A8 activation-quantization primitives MLX lacks natively, delivering **1.4x–2.2x prefill speedup** over MLX W4A16 on Apple M5 Pro — works with any MLX model, not just Mano-P
+- **Autonomous Software Construction**: [Mano-AFK](#-applications) drives a full PRD → code → deploy → test → fix loop using Mano-P as its local vision model for real-browser E2E testing — from a single natural-language prompt to a deployed, tested application, no human in the loop
 
 ---
 

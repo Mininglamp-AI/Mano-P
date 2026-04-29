@@ -4,7 +4,7 @@
       Mano-P 1.0
     </h1>
     <p><strong>面向端侧设备的GUI感知智能体模型</strong></p>
-    <p><strong>个性化AI</strong></p>
+    <p><strong>私有 AI</strong></p>
 </div>
 
 <hr>
@@ -33,7 +33,7 @@
 
 ## 项目概述
 
-**Mano-P**，Mano 是西班牙语里"手"的意思，P 有两重含义：Person（个体）和 Party（组织）。我们相信，个体和组织都能够创造属于自己的个性化 AI，人机协同的美好世界即将到来。
+**Mano-P**，Mano 是西班牙语里"手"的意思，P 有两重含义：Person（个体）和 Party（组织）。我们相信，个体和组织都能够创造属于自己的私有 AI，人机协同的美好世界即将到来。
 
 ![opensource_architecture.png](pics/opensource_architecture_zh.png)
 
@@ -84,7 +84,7 @@ https://github.com/user-attachments/assets/64c7dca1-973f-4c36-b30e-1f4e0e9e8a03
 
 https://github.com/user-attachments/assets/cb3e65be-eaf5-44a5-9f38-1415c12a8a43
 
-Mano-P，小尺寸端上GUI-VLA模型，直接运行在你的电脑上，支持M4芯片及以上的Macmini/Macbook直接推理运行，也支持在即插即用算力棒上直接运行。在CUA场景中，打通Agent工作流人类参与其中的瓶颈。Mano-P，引领AI for Personal/Party第一步。
+Mano-P，小尺寸端上GUI-VLA模型，直接运行在你的电脑上，支持M4芯片及以上的Macmini/Macbook直接推理运行，也支持在即插即用算力棒上直接运行。在CUA场景中，打通Agent工作流人类参与其中的瓶颈。Mano-P，引领私有 AI 第一步。
 
 [![Watch on 微信视频号](https://img.shields.io/badge/Watch%20on-微信视频号-07C160?logo=wechat&logoColor=white)](https://weixin.qq.com/sph/AkCLmX4NTA)
 
@@ -92,7 +92,7 @@ Mano-P，小尺寸端上GUI-VLA模型，直接运行在你的电脑上，支持M
 
 https://github.com/user-attachments/assets/397a0552-9611-4d74-9f24-99544da272b6
 
-Mano-P不仅能胜任企业级业务自动化，更能融入日常生活。本视频展示系统在麻将游戏中的应用：通过纯视觉理解游戏界面，自主完成识牌、分析和决策。这一案例验证了Mano-P在非工作场景下的通用能力——从办公自动化到休闲娱乐，从结构化数据处理到非结构化游戏交互，真正实现"AI for Personal"的愿景。一个模型，适配生活与工作的方方面面。
+Mano-P不仅能胜任企业级业务自动化，更能融入日常生活。本视频展示系统在麻将游戏中的应用：通过纯视觉理解游戏界面，自主完成识牌、分析和决策。这一案例验证了Mano-P在非工作场景下的通用能力——从办公自动化到休闲娱乐，从结构化数据处理到非结构化游戏交互，真正实现"私有 AI"的愿景。一个模型，适配生活与工作的方方面面。
 
 [![Watch on 微信视频号](https://img.shields.io/badge/Watch%20on-微信视频号-07C160?logo=wechat&logoColor=white)](https://weixin.qq.com/sph/AOzBArrvd7)
 

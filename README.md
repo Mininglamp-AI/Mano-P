@@ -4,7 +4,7 @@
       Mano-P 1.0
     </h1>
     <p><strong>GUI-Aware Agent Model for Edge Devices</strong></p>
-    <p><strong>AI for Personal</strong></p>
+    <p><strong>Private AI</strong></p>
 </div>
 
 <hr>
@@ -33,7 +33,7 @@
 
 ## Overview
 
-**Mano-P**: "Mano" means "hand" in Spanish, and "P" has dual meanings: Person and Party. We believe that both individuals and organizations can create their own personalized AI, and a bright future of human-machine collaboration is on the horizon.
+**Mano-P**: "Mano" means "hand" in Spanish, and "P" has dual meanings: Person and Party. We believe that both individuals and organizations can create their own Private AI, and a bright future of human-machine collaboration is on the horizon.
 
 ![opensource_architecture.png](pics/opensource_architecture_en.png)
 
@@ -85,7 +85,7 @@ We fully demonstrated the actual workflow of a commercial video intelligent syst
 
 https://github.com/user-attachments/assets/992f4961-3028-45c9-a7c2-29a8e5bf93a9
 
-Mano-P, The small-sized end side GUI-VLA model can run directly on your computer, supporting direct inference operation on Macmini/Macbook with M4 chip and above, as well as direct operation on plug and play computing power sticks. In the CUA scenario, break through the bottleneck of human participation in the Agent workflow. Mano-P, The first step in leading AI for Personal/Party.
+Mano-P, The small-sized end side GUI-VLA model can run directly on your computer, supporting direct inference operation on Macmini/Macbook with M4 chip and above, as well as direct operation on plug and play computing power sticks. In the CUA scenario, break through the bottleneck of human participation in the Agent workflow. Mano-P, The first step in leading Private AI.
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://youtu.be/VyHhsO1HFpg)
 
@@ -93,7 +93,7 @@ Mano-P, The small-sized end side GUI-VLA model can run directly on your computer
 
 https://github.com/user-attachments/assets/ff11fd5b-9ee7-4a74-b8e6-3ad3071d3af8
 
-Mano-P excels not only in enterprise-level business automation but also integrates seamlessly into daily life. This video demonstrates the system's application in Mahjong gameplay: through pure visual understanding of the game interface, it autonomously completes tile recognition, analysis, and decision-making. This case validates Mano-P's general-purpose capabilities beyond work scenarios—from office automation to leisure entertainment, from structured data processing to unstructured game interactions, truly realizing the vision of "AI for Personal." One model, adapting to every aspect of life and work.
+Mano-P excels not only in enterprise-level business automation but also integrates seamlessly into daily life. This video demonstrates the system's application in Mahjong gameplay: through pure visual understanding of the game interface, it autonomously completes tile recognition, analysis, and decision-making. This case validates Mano-P's general-purpose capabilities beyond work scenarios—from office automation to leisure entertainment, from structured data processing to unstructured game interactions, truly realizing the vision of "Private AI." One model, adapting to every aspect of life and work.
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://youtu.be/P4-wE3p7mB8)
 

@@ -1153,7 +1153,7 @@ Agent: [自动调用 mano-skill 完成 GUI 操作]
 
 ### 性能评测
 
-我们的Mano-P模型在采用专有的GS-Pruning算法进行剪枝后，可在苹果M4 Pro芯片上实现4K上下文任务的实时性能。相关剪枝方法即将发布。下表展示了M4 Pro的实际基准测试结果。
+下表展示了 Mano-P 1.0-4B 在 Apple M5 Pro + Cider 推理 SDK 组合下的实际性能基准。
 
 <table>
   <thead>
@@ -1163,36 +1163,26 @@ Agent: [自动调用 mano-skill 完成 GUI 操作]
       <th>带宽</th>
       <th>框架</th>
       <th>上下文长度</th>
-      <th>剪枝率</th>
-      <th>Prefill速度<br/>(tokens/s)</th>
-      <th>Decode速度<br/>(tokens/s)</th>
-      <th>峰值内存<br/>(GB)</th>
-      <th>Prefill时间<br/>(s)</th>
-      <th>Decode时间<br/>(s)</th>
+      <th>量化</th>
+      <th>Prefill 时间<br/>(s)</th>
+      <th>Decode 速度<br/>(tokens/s)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2"><strong>Mano-P 1.0-4B<br/>(w4a16)</strong></td>
-      <td rowspan="2">Apple M4 Pro<br/>64GB RAM</td>
-      <td rowspan="2"><strong>273 GB/s</strong></td>
-      <td rowspan="2">Mano-SDK</td>
-      <td>4112</td>
-      <td>0.5</td>
-      <td>476.952</td>
-      <td>76.75</td>
-      <td>4.356</td>
-      <td>8.621</td>
-      <td>0.265</td>
+      <td rowspan="2"><strong>Mano-P 1.0-4B</strong></td>
+      <td rowspan="2">Apple M5 Pro<br/>64GB RAM</td>
+      <td rowspan="2"><strong>307 GB/s</strong></td>
+      <td rowspan="2">Cider</td>
+      <td rowspan="2">4516</td>
+      <td>w8a8</td>
+      <td>2.519</td>
+      <td>79.5</td>
     </tr>
     <tr>
-      <td>8208</td>
-      <td>0.5</td>
-      <td>331.0</td>
-      <td>70.946</td>
-      <td>5.1471</td>
-      <td>24.792</td>
-      <td>0.253</td>
+      <td>w8a16</td>
+      <td>2.839</td>
+      <td>80.1</td>
     </tr>
   </tbody>
 </table>

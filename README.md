@@ -1156,7 +1156,7 @@ We are continuously improving cross-platform compatibility. Feedback is welcome.
 
 ### Performance Evaluation
 
-Our Mano-P model, after pruning with our proprietary GS-Pruning algorithm, achieves real-time performance on 4K-context tasks on the Apple M4 Pro chip. The relevant pruning methodology will be released soon. The table below presents the actual benchmark results on the M4 Pro.
+The table below presents actual inference benchmark results of Mano-P 1.0-4B running on Apple M5 Pro with the Cider inference SDK.
 
 <table>
   <thead>
@@ -1166,36 +1166,26 @@ Our Mano-P model, after pruning with our proprietary GS-Pruning algorithm, achie
       <th>Bandwidth</th>
       <th>Framework</th>
       <th>Context Length</th>
-      <th>Pruning Rate</th>
-      <th>Prefill Speed<br/>(tokens/s)</th>
-      <th>Decode Speed<br/>(tokens/s)</th>
-      <th>Peak Memory<br/>(GB)</th>
+      <th>Quantization</th>
       <th>Prefill Time<br/>(s)</th>
-      <th>Decode Time<br/>(s)</th>
+      <th>Decode Speed<br/>(tokens/s)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2"><strong>Mano-P 1.0-4B<br/>(w4a16)</strong></td>
-      <td rowspan="2">Apple M4 Pro<br/>64GB RAM</td>
-      <td rowspan="2"><strong>273 GB/s</strong></td>
-      <td rowspan="2">Mano-SDK</td>
-      <td>4112</td>
-      <td>0.5</td>
-      <td>476.952</td>
-      <td>76.75</td>
-      <td>4.356</td>
-      <td>8.621</td>
-      <td>0.265</td>
+      <td rowspan="2"><strong>Mano-P 1.0-4B</strong></td>
+      <td rowspan="2">Apple M5 Pro<br/>64GB RAM</td>
+      <td rowspan="2"><strong>307 GB/s</strong></td>
+      <td rowspan="2">Cider</td>
+      <td rowspan="2">4516</td>
+      <td>w8a8</td>
+      <td>2.519</td>
+      <td>79.5</td>
     </tr>
     <tr>
-      <td>8208</td>
-      <td>0.5</td>
-      <td>331.0</td>
-      <td>70.946</td>
-      <td>5.1471</td>
-      <td>24.792</td>
-      <td>0.253</td>
+      <td>w8a16</td>
+      <td>2.839</td>
+      <td>80.1</td>
     </tr>
   </tbody>
 </table>

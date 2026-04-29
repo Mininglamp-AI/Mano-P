@@ -101,6 +101,14 @@ Mano-P excels not only in enterprise-level business automation but also integrat
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://youtu.be/P4-wE3p7mB8)
 
+### Scenario 5: Mano-AFK × Cider Locally-Accelerated End-to-End App Construction
+
+https://github.com/user-attachments/assets/b987f367-5c47-4659-890b-3e8a6e741603
+
+This video demonstrates the combined capability of [Mano-AFK](#-applications) and the [Cider](#-inference-sdk) inference acceleration SDK. Starting from a single natural-language requirement, Mano-AFK autonomously performs requirement clarification, architecture design, code generation, and local deployment. In the E2E testing stage it drives a real browser through the local Mano-P vision model — accelerated by Cider — to run GUI automation tests; on failure, it localizes the defect, patches the code, and re-verifies until a runnable application is delivered. Cider supplies the INT8 activation-quantization primitives that give Mano-P a substantial prefill speedup on Apple Silicon, so the entire build–test–fix loop runs fully on-device, balancing autonomy, privacy, and performance.
+
+[![Watch on YouTube](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://youtu.be/PK-QYjiAkb8)
+
 ---
 
 ## 📊 Benchmark Performance

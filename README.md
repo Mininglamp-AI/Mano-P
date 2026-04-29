@@ -936,7 +936,7 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 ## 🔧 Skills
 
-**Mano-Skill** is a desktop GUI automation tool based on the Mano model, driving cross-platform graphical interface operations through natural language. We provide three different usage forms for the same core capability to adapt to different usage scenarios and user groups.
+**Mano-Skill** is a desktop GUI automation tool based on the Mano model, driving cross-platform graphical interface operations through natural language. We provide two different usage forms for the same core capability to adapt to different usage scenarios and user groups.
 
 ---
 
@@ -956,14 +956,6 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 #### How It Works
 
-**Local Mode**
-
-1. Capture current screen screenshot
-2. Run Mano-P model on local device (Mac mini/MacBook) or computing stick for inference
-3. Local model analyzes and returns next action instruction
-4. Client executes operation (click, type, etc.)
-5. Loop execution until task completion
-
 **Cloud Mode (Default)**
 
 1. Capture current screen screenshot
@@ -972,13 +964,15 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 4. Local client executes operation (click, type, etc.)
 5. Loop execution until task completion
 
+**Local Mode**
+
+1. Capture current screen screenshot
+2. Run Mano-P model on local device (Mac mini/MacBook) or computing stick for inference
+3. Local model analyzes and returns next action instruction
+4. Client executes operation (click, type, etc.)
+5. Loop execution until task completion
+
 #### Data Privacy & Security
-
-**Local Mode (Mac mini/MacBook or Computing Stick):**
-
-- ✅ **Fully Local Processing**: All data processing is completed locally, screenshots and task descriptions never leave the device
-- ✅ **Data Stays on Device**: Does not access or transmit any data to external servers
-- ✅ **Maximum Privacy Protection**: Suitable for handling sensitive information and high-security scenarios
 
 **Cloud Mode:**
 
@@ -986,19 +980,25 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 - ✅ **Data Not Sent**: Does not access or transmit local files, clipboard contents, system credentials
 - ⚠️ **Privacy Note**: Avoid displaying sensitive documents, chat logs, or credential information on screen when running tasks
 
+**Local Mode (Mac mini/MacBook or Computing Stick):**
+
+- ✅ **Fully Local Processing**: All data processing is completed locally, screenshots and task descriptions never leave the device
+- ✅ **Data Stays on Device**: Does not access or transmit any data to external servers
+- ✅ **Maximum Privacy Protection**: Suitable for handling sensitive information and high-security scenarios
+
 **General Assurance:**
 
 - ✅ **Open Source Auditable**: Complete source code publicly available for review
 
 ---
 
-### 🔧 Three Usage Forms
+### 🔧 Two Usage Forms
 
-> If you want to use Mano-P directly to accomplish GUI automation tasks, here are three different usage forms. Choose the one that best fits your use case.
+> If you want to use Mano-P directly to accomplish GUI automation tasks, here are two different usage forms. Choose the one that best fits your use case.
 
 #### 1️⃣ mano-cua (CLI Command-Line Tool)
 
-**Use Case**: Developers, advanced users who need to quickly execute GUI automation tasks in terminal
+**Use Case**: **For human users** — developers and advanced users invoking mano-cua directly in a terminal to quickly execute one-off or scripted GUI automation tasks
 
 **Installation**:
 
@@ -1017,7 +1017,7 @@ The installation process will automatically:
 **Usage**:
 
 ```bash
-# Run tasks
+# Cloud mode (default — no extra setup required)
 mano-cua run "Open WeChat and tell FTY the meeting is postponed"
 mano-cua run "Search for AI news on Xiaohongshu and display the first post"
 
@@ -1025,12 +1025,28 @@ mano-cua run "Search for AI news on Xiaohongshu and display the first post"
 mano-cua stop
 ```
 
+mano-cua ships with two inference modes: **cloud** and **local**. Cloud is the default; to run Mano-P locally on macOS Apple Silicon, use the `--local` flag:
+
+```bash
+# First-time local setup: verify env / install SDK / pull the local model
+mano-cua check
+mano-cua install-sdk
+mano-cua install-model
+
+# Run a task in local mode
+mano-cua run "Open Safari and search for Python" --local
+mano-cua run "Type hello in the search box" --local --url "https://www.baidu.com" --minimize --max-steps 15
+```
+
+In local mode, Mano-P runs on-device via MLX — screenshots and task descriptions make zero network calls for inference.
+
 **Features**:
 
 - ✅ Command-line interface, quick invocation
 - ✅ Virtual environment isolation, no system Python pollution
 - ✅ Suitable for script integration and batch processing
 - ✅ Can be embedded in shell scripts
+- ✅ Cloud / local inference modes — `--local` switches to on-device in one flag
 
 **Installation & Distribution**:
 
@@ -1038,39 +1054,9 @@ mano-cua stop
 
 ---
 
-#### 2️⃣ mano-client (Python SDK) ⏳ Planned
+#### 2️⃣ mano-skill (ClawHub Skill Form)
 
-**Use Case**: Python developers who need to integrate GUI automation capabilities into Python projects
-
-**Planned Features**:
-
-```python
-from mano_client import ManoClient
-
-# Create client instance
-client = ManoClient()
-
-# Run task
-client.run("Open WeChat and tell FTY the meeting is postponed")
-
-# Stop task
-client.stop()
-```
-
-**Planned Capabilities**:
-
-- Python API, easy integration into existing Python projects
-- Supports asynchronous calls and callback functions
-- Programmable control of task flow
-- Suitable for building automated workflows
-
-> **Development Status**: Python SDK is under development. Please use CLI tool or Skill form for now.
-
----
-
-#### 3️⃣ mano-skill (ClawHub Skill Form)
-
-**Use Case**: AI agents like Claude Code, OpenClaw that need to autonomously invoke GUI automation capabilities to complete user tasks
+**Use Case**: **For AI agents** — Claude Code, OpenClaw and similar agents autonomously invoke GUI automation capabilities mid-reasoning to complete user tasks, no manual command execution needed
 
 **Installation**:
 

@@ -1145,11 +1145,11 @@ Agent: [自动调用 mano-skill 完成 GUI 操作]
 
 ## 模型
 
-> 如果您想在自己的应用中集成 Mano-P 的模型能力，这里提供了模型的性能指标和使用指南。模型即将发布，敬请期待。
+> 如果您想在自己的应用中集成 Mano-P 的模型能力，这里提供了模型的性能指标和使用指南。
 
 ### 性能评测
 
-我们的Mano-P模型在采用专有的GS-Pruning算法进行剪枝后，可在苹果M4 Pro芯片上实现4K上下文任务的实时性能。相关模型与方法即将发布。下表展示了M4 Pro的实际基准测试结果。
+我们的Mano-P模型在采用专有的GS-Pruning算法进行剪枝后，可在苹果M4 Pro芯片上实现4K上下文任务的实时性能。相关剪枝方法即将发布。下表展示了M4 Pro的实际基准测试结果。
 
 <table>
   <thead>
@@ -1193,7 +1193,7 @@ Agent: [自动调用 mano-skill 完成 GUI 操作]
   </tbody>
 </table>
 
-**模型即将推出**
+**模型下载：** 🤗 [Hugging Face](https://huggingface.co/Mininglamp-2718/Mano-P) · 🪄 [ModelScope](https://modelscope.cn/models/Mininglamp/Mano-P)
 
 ### 端侧推理加速 SDK：Cider
 

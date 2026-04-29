@@ -1162,11 +1162,11 @@ We are continuously improving cross-platform compatibility. Feedback is welcome.
 
 ## Models
 
-> If you want to integrate Mano-P's model capabilities into your own applications, this section provides performance metrics and usage guidelines. Models will be released soon.
+> If you want to integrate Mano-P's model capabilities into your own applications, this section provides performance metrics and usage guidelines.
 
 ### Performance Evaluation
 
-Our Mano-P model, after pruning with our proprietary GS-Pruning algorithm, achieves real-time performance on 4K-context tasks on the Apple M4 Pro chip. The relevant models and methods will be released soon. The table below presents the actual benchmark results on the M4 Pro.
+Our Mano-P model, after pruning with our proprietary GS-Pruning algorithm, achieves real-time performance on 4K-context tasks on the Apple M4 Pro chip. The relevant pruning methodology will be released soon. The table below presents the actual benchmark results on the M4 Pro.
 
 <table>
   <thead>
@@ -1210,7 +1210,7 @@ Our Mano-P model, after pruning with our proprietary GS-Pruning algorithm, achie
   </tbody>
 </table>
 
-**Model will be released soon**
+**Model download:** 🤗 [Hugging Face](https://huggingface.co/Mininglamp-2718/Mano-P) · 🪄 [ModelScope](https://modelscope.cn/models/Mininglamp/Mano-P)
 
 ### Edge Inference SDK: Cider
 

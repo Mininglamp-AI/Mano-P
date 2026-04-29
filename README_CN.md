@@ -1153,7 +1153,7 @@ Agent: [自动调用 mano-skill 完成 GUI 操作]
 
 ### 性能评测
 
-下表展示了 Mano-P 1.0-4B 在 Apple M5 Pro + Cider 推理 SDK 组合下的实际性能基准。
+下表展示了 Mano-P 1.0-4B 在 Apple M5 Pro + Cider 推理 SDK 组合下的实际性能基准。以 W8A16（MLX 原生仅权重量化路径，也是 [Cider LLM Quantization benchmark](#-推理加速-sdk) 采用的参照系之一）作为 baseline，启用 Cider 的 W8A8 激活量化后，prefill 吞吐从 1590.7 tokens/s 提升至 1793.2 tokens/s——在 4516 输入 tokens 下取得 **约 12.7% 的加速**。底层 INT8 TensorOps 机制在更大参数模型上收益更显著，可参见 Cider 自身表格中 8B 规模 LLM 的 1.5x–1.7x 数据。
 
 <table>
   <thead>
@@ -1175,12 +1175,12 @@ Agent: [自动调用 mano-skill 完成 GUI 操作]
       <td rowspan="2"><strong>307 GB/s</strong></td>
       <td rowspan="2">Cider</td>
       <td rowspan="2">4516</td>
-      <td>w8a8</td>
+      <td>W8A8</td>
       <td>2.519</td>
       <td>79.5</td>
     </tr>
     <tr>
-      <td>w8a16</td>
+      <td>W8A16</td>
       <td>2.839</td>
       <td>80.1</td>
     </tr>

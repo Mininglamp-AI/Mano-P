@@ -17,7 +17,7 @@
 
 <a href="README_CN.md">中文</a> | English
 
-**[📖 Overview](#-overview) | [🎬 Use Cases](#-use-case-demonstrations) | [🔧 Skills](#-skills) | [🤖 Models](#models) | [⚗️ Approach](#approach) | [🌟 Technical Advantages](#-technical-advantages) | [⚡ Inference SDK](#-inference-sdk) | [🔗 Applications](#-applications) | [📄 Citation](#-technical-papers--citation) | [❓ FAQ](#-faq)**
+**[📖 Overview](#-overview) | [🎯 Key Highlights](#-key-highlights) | [🎬 Use Cases](#-use-case-demonstrations) | [📊 Benchmark](#-benchmark-performance) | [🔧 Skills](#-skills) | [🤖 Models](#-models) | [⚗️ Approach](#-approach) | [🌟 Technical Advantages](#-technical-advantages) | [⚡ Inference SDK](#-inference-sdk) | [🔗 Applications](#-applications) | [📄 Citation](#-technical-papers--citation) | [❓ FAQ](#-faq)**
 
 </div>
 
@@ -31,7 +31,7 @@
 
 ---
 
-## Overview
+## 📖 Overview
 
 **Mano-P**: "Mano" means "hand" in Spanish, and "P" has dual meanings: Person and Party. We believe that both individuals and organizations can create their own Private AI, and a bright future of human-machine collaboration is on the horizon.
 
@@ -99,7 +99,7 @@ Mano-P excels not only in enterprise-level business automation but also integrat
 
 ---
 
-## Benchmark Performance
+## 📊 Benchmark Performance
 
 **Performance of the Mano series models in multiple benchmarks:**
 
@@ -928,9 +928,9 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 ---
 
-## 📦 Core Capability Overview
+### 📦 Core Capability Overview
 
-### Feature Highlights
+#### Feature Highlights
 
 - **Natural Language Driven**: Users describe tasks in natural language, and the system automatically executes GUI operations
 - **Flexible Inference Modes**:
@@ -942,7 +942,7 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 - **Comprehensive Interaction Support**: Click, type, hotkey, scroll, drag, mouse movement, screenshot, wait, app launch, URL navigation
 - **Cross-Platform Support**: macOS (stable), Windows, Linux (Beta)
 
-### How It Works
+#### How It Works
 
 **Local Mode**
 
@@ -960,7 +960,7 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 4. Local client executes operation (click, type, etc.)
 5. Loop execution until task completion
 
-### Data Privacy & Security
+#### Data Privacy & Security
 
 **Local Mode (Mac mini/MacBook or Computing Stick):**
 
@@ -980,11 +980,11 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 ---
 
-## 🔧 Three Usage Forms
+### 🔧 Three Usage Forms
 
 > If you want to use Mano-P directly to accomplish GUI automation tasks, here are three different usage forms. Choose the one that best fits your use case.
 
-### 1️⃣ mano-cua (CLI Command-Line Tool) ⏳ Planned
+#### 1️⃣ mano-cua (CLI Command-Line Tool) ⏳ Planned
 
 **Use Case**: Developers, advanced users who need to quickly execute GUI automation tasks in terminal
 
@@ -1026,7 +1026,7 @@ mano-cua stop
 
 ---
 
-### 2️⃣ mano-client (Python SDK) ⏳ Planned
+#### 2️⃣ mano-client (Python SDK) ⏳ Planned
 
 **Use Case**: Python developers who need to integrate GUI automation capabilities into Python projects
 
@@ -1056,7 +1056,7 @@ client.stop()
 
 ---
 
-### 3️⃣ mano-skill (ClawHub Skill Form)
+#### 3️⃣ mano-skill (ClawHub Skill Form)
 
 **Use Case**: AI agents like Claude Code, OpenClaw that need to autonomously invoke GUI automation capabilities to complete user tasks
 
@@ -1114,20 +1114,20 @@ Agent: [Automatically invokes mano-skill to complete GUI operation]
 
 ---
 
-## ⚙️ Permission Requirements (Common to All Forms)
+### ⚙️ Permission Requirements (Common to All Forms)
 
 - **Screen Recording Permission**
 - **Accessibility Permission** (keyboard/mouse control)
 - Grant permissions in **System Preferences → Privacy & Security**
 
-## 🔒 Security Constraints (Common to All Forms)
+### 🔒 Security Constraints (Common to All Forms)
 
 - Sensitive or potentially dangerous operations require user confirmation before execution
 - Users can stop tasks at any time
 - Only one task can run on each device simultaneously
 - Only supports primary display (multi-display environment)
 
-## 📊 Status Panel
+### 📊 Status Panel
 
 When a task is running, a small status panel appears in the top-right corner of the screen to:
 
@@ -1135,7 +1135,7 @@ When a task is running, a small status panel appears in the top-right corner of 
 - Provide task management functions (pause/stop)
 - Remind users that an automation task is running to avoid accidental interference
 
-## 🔔 Platform Compatibility Note
+### 🔔 Platform Compatibility Note
 
 **Beta Version Notice**: Mano-Skill is currently in Beta testing phase.
 
@@ -1146,7 +1146,7 @@ We are continuously improving cross-platform compatibility. Feedback is welcome.
 
 ---
 
-## Models
+## 🤖 Models
 
 > If you want to integrate Mano-P's model capabilities into your own applications, this section provides performance metrics and usage guidelines.
 
@@ -1200,7 +1200,7 @@ Our Mano-P model, after pruning with our proprietary GS-Pruning algorithm, achie
 
 ---
 
-## Approach
+## ⚗️ Approach
 
 > If you are a researcher or wish to train customized GUI Agent models based on your own data, we plan to open-source the complete Mano-Action training methodology and related tools.
 >

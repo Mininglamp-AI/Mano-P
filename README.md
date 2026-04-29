@@ -1156,7 +1156,7 @@ We are continuously improving cross-platform compatibility. Feedback is welcome.
 
 ### Performance Evaluation
 
-The table below presents actual inference benchmark results of Mano-P 1.0-4B running on Apple M5 Pro with the Cider inference SDK. Taking W8A16 (MLX's native weight-only quantization path) as the baseline — the same reference convention used in [Cider's LLM Quantization benchmark](#-inference-sdk) — enabling Cider's W8A8 activation quantization lifts prefill throughput from 1590.7 to 1793.2 tokens/s on 4516-token inputs, a **~12.7% speedup**. The underlying INT8 TensorOps mechanism scales further on larger models (see the 8B-scale data in Cider's own table for the 1.5x–1.7x gain).
+The table below presents actual inference benchmark results of Mano-P 1.0-4B running on Apple M5 Pro with the Cider inference SDK. Using W8A16 (MLX's native weight-only quantization path) as the baseline — the same reference convention adopted in [Cider's LLM Quantization benchmark](#-inference-sdk) — enabling Cider's W8A8 activation quantization reduces prefill time from 2.839s to 2.519s on the same input, a **~12.7% prefill speedup**. For more data, refer to the [⚡ Inference SDK](#-inference-sdk) section below.
 
 <table>
   <thead>
@@ -1178,14 +1178,14 @@ The table below presents actual inference benchmark results of Mano-P 1.0-4B run
       <td rowspan="2"><strong>307 GB/s</strong></td>
       <td rowspan="2">Cider</td>
       <td rowspan="2">4516</td>
-      <td>W8A8</td>
-      <td>2.519</td>
-      <td>79.5</td>
-    </tr>
-    <tr>
       <td>W8A16</td>
       <td>2.839</td>
       <td>80.1</td>
+    </tr>
+    <tr>
+      <td>W8A8</td>
+      <td>2.519</td>
+      <td>79.5</td>
     </tr>
   </tbody>
 </table>

@@ -17,7 +17,7 @@
 
 <a href="README_CN.md">中文</a> | English
 
-**[📖 Overview](#-overview) | [🎯 Key Highlights](#-key-highlights) | [🎬 Use Cases](#-use-case-demonstrations) | [📊 Benchmark](#-benchmark-performance) | [🔧 Skills](#-skills) | [🤖 Models](#-models) | [⚗️ Approach](#-approach) | [🌟 Technical Advantages](#-technical-advantages) | [⚡ Inference SDK](#-inference-sdk) | [🔗 Applications](#-applications) | [📄 Citation](#-technical-papers--citation) | [❓ FAQ](#-faq)**
+**[📖 Overview](#-overview) | [🎯 Key Highlights](#-key-highlights) | [🎬 Use Cases](#-use-case-demonstrations) | [📊 Benchmark](#-benchmark-performance) | [🔧 Skills](#-skills) | [🤖 Models](#-models) | [⚡ Inference SDK](#-inference-sdk) | [⚗️ Approach](#-approach) | [🌟 Technical Advantages](#-technical-advantages) | [🔗 Applications](#-applications) | [📄 Citation](#-technical-papers--citation) | [❓ FAQ](#-faq)**
 
 </div>
 
@@ -1200,6 +1200,67 @@ Our Mano-P model, after pruning with our proprietary GS-Pruning algorithm, achie
 
 ---
 
+## ⚡ Inference SDK
+
+### Overview
+
+**Cider** is an inference acceleration SDK for Apple Silicon, built on top of Apple MLX. It implements the online activation-quantization operators that MLX does not ship natively, exposed as MLX custom primitives with full lazy-evaluation support. Cider also extends `mlx_vlm` with bug fixes and adds on-device inference services. It works with any MLX model — Qwen, Llama, Mistral, and VLMs like Qwen3-VL — via a one-line `convert_model()` API, and ships an OpenAI-compatible VLM inference server out of the box.
+
+### Modes
+
+| Mode     | Weights             | Activations    | Compute Path       | Status    |
+| -------- | ------------------- | -------------- | ------------------ | --------- |
+| **W8A8** | INT8 per-column     | INT8 per-token | TensorOps matmul2d | ✅ Stable |
+| **W4A8** | INT4 packed (uint8) | INT8 per-token | Unpack → TensorOps | ✅ Stable |
+| W4A16    | —                   | —              | MLX built-in       | Baseline  |
+| W8A16    | —                   | —              | MLX built-in       | Baseline  |
+
+MLX natively supports **W4A16** and **W8A16** only; Cider fills in the missing **W8A8** and **W4A8** modes. MLX's native quantization is weight-only (`QuantizedLinear` dequantizes weights to FP16 and runs FP16 GEMM), while Cider provides true INT8 activation quantization plus INT8 TensorOps compute via fused quantize-matmul-dequant primitives:
+
+- **W8A8**: 1.4x–2.2x faster than MLX W4A16 depending on batch size
+- **W4A8**: half the weight memory of W8A8, competitive with MLX W4A16 at batch sizes ≥ 16
+
+### Performance (Apple M5 Pro, 4096×4096)
+
+**Individual Operator Latency**
+
+| M   | W8A8   | W4A8   | MLX W4A16 | W8A8 vs W4A16 |
+| --- | ------ | ------ | --------- | ------------- |
+| 1   | 0.47ms | 0.52ms | 0.21ms    | 0.44x         |
+| 16  | 0.23ms | 0.32ms | 0.34ms    | **1.48x**     |
+| 64  | 0.24ms | 0.40ms | 0.53ms    | **2.21x**     |
+| 128 | 0.29ms | 0.47ms | 0.40ms    | **1.38x**     |
+| 256 | 0.41ms | 0.69ms | 0.71ms    | **1.73x**     |
+
+**End-to-End VLM Prefill (Qwen3-VL-2B, chunked prefill chunk=2048, bfloat16 model)**
+
+| Tokens | BF16 (baseline) | W8A8 Prefill | Speedup   |
+| ------ | --------------- | ------------ | --------- |
+| 1334   | 159ms           | **134ms**    | **1.19x** |
+| 2393   | 298ms           | **254ms**    | **1.17x** |
+| 3455   | 432ms           | **374ms**    | **1.15x** |
+
+Decode uses the original weights (zero overhead); mode switching is instant.
+
+**LLM Quantization: Precision vs. Speed**
+
+| Model     | Quantization    | wikitext2 PPL ↓ | Prefill (tokens/s) ↑ |
+| --------- | --------------- | --------------- | -------------------- |
+| Qwen3-8B  | FP16            | 9.729           | 1695                 |
+| Qwen3-8B  | W4A16 (AWQ)     | 9.991           | 1628                 |
+| Qwen3-8B  | W8A16 (GPTQ)    | 9.707           | 1484                 |
+| Qwen3-8B  | **W8A8 (GPTQ)** | 9.756           | **2531**             |
+| Llama3-8B | FP16            | 6.138           | 1727                 |
+| Llama3-8B | W4A16 (GPTQ)    | 6.809           | 1579                 |
+| Llama3-8B | W8A16 (GPTQ)    | 6.147           | 1477                 |
+| Llama3-8B | **W8A8 (GPTQ)** | 6.271           | **2520**             |
+
+An experimental **ANE+GPU heterogeneous tensor parallelism** mode on M4 adds another 3%–16% by offloading ~65% of output channels to the Apple Neural Engine during prefill.
+
+- 🔗 Repository: [github.com/Mininglamp-AI/cider](https://github.com/Mininglamp-AI/cider)
+
+---
+
 ## ⚗️ Approach
 
 > If you are a researcher or wish to train customized GUI Agent models based on your own data, we plan to open-source the complete Mano-Action training methodology and related tools.
@@ -1263,67 +1324,6 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
    - Model + computing stick integrated solution, plug-and-play
    - Lowers technical barrier compared to OpenClaw (open-source & free but requires self-deployment)
    - Cross-platform compatible, rapid deployment and launch
-
----
-
-## ⚡ Inference SDK
-
-### Overview
-
-**Cider** is an inference acceleration SDK for Apple Silicon, built on top of Apple MLX. It implements the online activation-quantization operators that MLX does not ship natively, exposed as MLX custom primitives with full lazy-evaluation support. Cider also extends `mlx_vlm` with bug fixes and adds on-device inference services. It works with any MLX model — Qwen, Llama, Mistral, and VLMs like Qwen3-VL — via a one-line `convert_model()` API, and ships an OpenAI-compatible VLM inference server out of the box.
-
-### Modes
-
-| Mode     | Weights             | Activations    | Compute Path       | Status    |
-| -------- | ------------------- | -------------- | ------------------ | --------- |
-| **W8A8** | INT8 per-column     | INT8 per-token | TensorOps matmul2d | ✅ Stable |
-| **W4A8** | INT4 packed (uint8) | INT8 per-token | Unpack → TensorOps | ✅ Stable |
-| W4A16    | —                   | —              | MLX built-in       | Baseline  |
-| W8A16    | —                   | —              | MLX built-in       | Baseline  |
-
-MLX natively supports **W4A16** and **W8A16** only; Cider fills in the missing **W8A8** and **W4A8** modes. MLX's native quantization is weight-only (`QuantizedLinear` dequantizes weights to FP16 and runs FP16 GEMM), while Cider provides true INT8 activation quantization plus INT8 TensorOps compute via fused quantize-matmul-dequant primitives:
-
-- **W8A8**: 1.4x–2.2x faster than MLX W4A16 depending on batch size
-- **W4A8**: half the weight memory of W8A8, competitive with MLX W4A16 at batch sizes ≥ 16
-
-### Performance (Apple M5 Pro, 4096×4096)
-
-**Individual Operator Latency**
-
-| M   | W8A8   | W4A8   | MLX W4A16 | W8A8 vs W4A16 |
-| --- | ------ | ------ | --------- | ------------- |
-| 1   | 0.47ms | 0.52ms | 0.21ms    | 0.44x         |
-| 16  | 0.23ms | 0.32ms | 0.34ms    | **1.48x**     |
-| 64  | 0.24ms | 0.40ms | 0.53ms    | **2.21x**     |
-| 128 | 0.29ms | 0.47ms | 0.40ms    | **1.38x**     |
-| 256 | 0.41ms | 0.69ms | 0.71ms    | **1.73x**     |
-
-**End-to-End VLM Prefill (Qwen3-VL-2B, chunked prefill chunk=2048, bfloat16 model)**
-
-| Tokens | BF16 (baseline) | W8A8 Prefill | Speedup   |
-| ------ | --------------- | ------------ | --------- |
-| 1334   | 159ms           | **134ms**    | **1.19x** |
-| 2393   | 298ms           | **254ms**    | **1.17x** |
-| 3455   | 432ms           | **374ms**    | **1.15x** |
-
-Decode uses the original weights (zero overhead); mode switching is instant.
-
-**LLM Quantization: Precision vs. Speed**
-
-| Model     | Quantization    | wikitext2 PPL ↓ | Prefill (tokens/s) ↑ |
-| --------- | --------------- | --------------- | -------------------- |
-| Qwen3-8B  | FP16            | 9.729           | 1695                 |
-| Qwen3-8B  | W4A16 (AWQ)     | 9.991           | 1628                 |
-| Qwen3-8B  | W8A16 (GPTQ)    | 9.707           | 1484                 |
-| Qwen3-8B  | **W8A8 (GPTQ)** | 9.756           | **2531**             |
-| Llama3-8B | FP16            | 6.138           | 1727                 |
-| Llama3-8B | W4A16 (GPTQ)    | 6.809           | 1579                 |
-| Llama3-8B | W8A16 (GPTQ)    | 6.147           | 1477                 |
-| Llama3-8B | **W8A8 (GPTQ)** | 6.271           | **2520**             |
-
-An experimental **ANE+GPU heterogeneous tensor parallelism** mode on M4 adds another 3%–16% by offloading ~65% of output channels to the Apple Neural Engine during prefill.
-
-- 🔗 Repository: [github.com/Mininglamp-AI/cider](https://github.com/Mininglamp-AI/cider)
 
 ---
 

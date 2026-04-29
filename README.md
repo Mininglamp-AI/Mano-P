@@ -1212,6 +1212,12 @@ Our Mano-P model, after pruning with our proprietary GS-Pruning algorithm, achie
 
 **Model will be released soon**
 
+### Edge Inference SDK: Cider
+
+**Cider** is our open-source edge inference acceleration SDK for Apple Silicon, built on top of Apple MLX. It fills MLX's missing **W8A8 / W4A8 activation quantization** operators with custom Metal 4 TensorOps kernels, delivering true INT8×INT8→INT32 GEMM on Apple Silicon (M5 Pro stable, M4 experimental). Cider works with **any MLX model** — Qwen, Llama, Mistral, and VLMs like Qwen3-VL — via a one-line `convert_model()` API, and ships an **OpenAI-compatible VLM inference server** out of the box. On Apple M5 Pro, Cider achieves **1.4x–2.2x operator-level speedup** over MLX's native W4A16, with **15%–19% end-to-end prefill acceleration** measured on Qwen3-VL-2B; an experimental **ANE+GPU heterogeneous tensor parallelism** mode on M4 adds another **3%–16%** on top. Prefill uses INT8 TensorOps; decode automatically falls back to original weights with zero overhead.
+
+- 🔗 Repository: [github.com/Mininglamp-AI/cider](https://github.com/Mininglamp-AI/cider)
+
 ---
 
 ## Approach

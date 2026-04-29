@@ -1195,6 +1195,12 @@ Agent: [自动调用 mano-skill 完成 GUI 操作]
 
 **模型即将推出**
 
+### 端侧推理加速 SDK：Cider
+
+**Cider** 是我们为 Apple Silicon 打造的开源端侧推理加速 SDK，基于 Apple MLX 构建。它通过自定义 Metal 4 TensorOps kernel 补齐了 MLX 缺失的 **W8A8 / W4A8 激活量化**算子，在 Apple Silicon 上实现真正的 INT8×INT8→INT32 GEMM（M5 Pro 稳定支持，M4 实验性支持）。Cider 兼容**任意 MLX 模型**——包括 Qwen、Llama、Mistral，以及 Qwen3-VL 等 VLM——通过一行 `convert_model()` 即可完成接入，并内置 **OpenAI 兼容的 VLM 推理服务**。在 Apple M5 Pro 上，Cider 相对 MLX 原生 W4A16 可实现 **1.4x–2.2x 的算子级加速**，在 Qwen3-VL-2B 上实测 **15%–19% 的端到端 prefill 提速**；M4 上的 **ANE+GPU 异构张量并行**模式（实验性）可额外带来 **3%–16%** 加速。Prefill 阶段走 INT8 TensorOps，decode 阶段自动回落到原始权重、零开销。
+
+- 🔗 仓库地址：[github.com/Mininglamp-AI/cider](https://github.com/Mininglamp-AI/cider)
+
 ---
 
 ## 方法

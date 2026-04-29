@@ -33,7 +33,7 @@
 
 ## 📖 Overview
 
-**Mano-P**: "Mano" means "hand" in Spanish, and "P" has dual meanings: Person and Party. We believe that both individuals and organizations can create their own Private AI, and a bright future of human-machine collaboration is on the horizon.
+**Mano-P**: "Mano" means "hand" in Spanish, and "P" stands for Private. We believe that both individuals and organizations can create their own Private AI, and a bright future of human-machine collaboration is on the horizon.
 
 ![opensource_architecture.png](pics/opensource_architecture_en.png)
 
@@ -996,7 +996,7 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 > If you want to use Mano-P directly to accomplish GUI automation tasks, here are three different usage forms. Choose the one that best fits your use case.
 
-#### 1️⃣ mano-cua (CLI Command-Line Tool) ⏳ Planned
+#### 1️⃣ mano-cua (CLI Command-Line Tool)
 
 **Use Case**: Developers, advanced users who need to quickly execute GUI automation tasks in terminal
 
@@ -1004,7 +1004,7 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 ```bash
 # Install via Homebrew
-brew tap hanningwang/tap
+brew tap Mininglamp-AI/tap
 brew install mano-cua
 ```
 
@@ -1453,10 +1453,10 @@ Mano-P is an **open-source GUI-VLA (Vision-Language-Action) agent** designed to 
 <summary><b>📦 How do I install Mano-P?</b></summary>
 <br>
 
-**CLI Tool:** ⏳ Planned
+**CLI Tool:**
 
 ```bash
-brew tap hanningwang/tap && brew install mano-cua
+brew tap Mininglamp-AI/tap && brew install mano-cua
 ```
 
 **OpenClaw/Claude Code Skill:**

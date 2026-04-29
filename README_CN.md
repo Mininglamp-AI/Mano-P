@@ -1029,7 +1029,7 @@ mano-cua stop
 - ✅ 适合脚本集成和批处理
 - ✅ 可在 shell 脚本中嵌入使用
 
-**项目资源**：
+**安装与分发**：
 
 - **Homebrew Tap**：[github.com/Mininglamp-AI/homebrew-tap](https://github.com/Mininglamp-AI/homebrew-tap)
 

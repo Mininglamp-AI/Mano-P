@@ -1032,7 +1032,7 @@ mano-cua stop
 - ✅ Suitable for script integration and batch processing
 - ✅ Can be embedded in shell scripts
 
-**Project Resources**:
+**Installation & Distribution**:
 
 - **Homebrew Tap**: [github.com/Mininglamp-AI/homebrew-tap](https://github.com/Mininglamp-AI/homebrew-tap)
 

@@ -17,7 +17,7 @@
 
 <a href="README_CN.md">中文</a> | English
 
-**[📖 Overview](#-overview) | [🎬 Use Cases](#-use-case-demonstrations) | [🔧 Skills](#-skills) | [🤖 Models](#models) | [⚗️ Approach](#approach) | [🌟 Technical Advantages](#-technical-advantages) | [📄 Citation](#-technical-papers--citation) | [❓ FAQ](#-faq)**
+**[📖 Overview](#-overview) | [🎬 Use Cases](#-use-case-demonstrations) | [🔧 Skills](#-skills) | [🤖 Models](#models) | [⚗️ Approach](#approach) | [🌟 Technical Advantages](#-technical-advantages) | [🔗 Applications](#-applications) | [📄 Citation](#-technical-papers--citation) | [❓ FAQ](#-faq)**
 
 </div>
 
@@ -65,11 +65,11 @@ Mano-P builds upon the complete technical framework of the Mano project (see [Ma
 
 ## 🎬 Use Case Demonstrations
 
-### Scenario 1: Mano-afk Fully automated application construction
+### Scenario 1: Mano-AFK Fully automated application construction
 
 https://github.com/user-attachments/assets/8512ab65-f836-4779-979a-4c636fe61fd2
 
-We demonstrated the fully automated application construction process of mano afk. After receiving natural language requirements, the system sequentially completes requirement clarification, technical architecture design, code generation, local deployment, and multi-level testing (API interface testing, LLM based page visual inspection, and end-to-end GUI automation testing driven by VLA model). When the test fails, the system automatically locates the root cause of the problem, fixes the code, and deploys verification again, iterating until all test cases pass. The entire process does not require manual intervention, and ultimately delivers a runnable application with complete requirement documents and build reports.
+We demonstrated the fully automated application construction process of [Mano-AFK](#-applications). After receiving natural language requirements, the system sequentially completes requirement clarification, technical architecture design, code generation, local deployment, and multi-level testing (API interface testing, LLM based page visual inspection, and end-to-end GUI automation testing driven by VLA model). When the test fails, the system automatically locates the root cause of the problem, fixes the code, and deploys verification again, iterating until all test cases pass. The entire process does not require manual intervention, and ultimately delivers a runnable application with complete requirement documents and build reports.
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch%20on-YouTube-red?logo=youtube)](https://youtu.be/T2QeXOOvRBQ?si=-I1HDmmtWNeKmg5Q)
 
@@ -784,20 +784,6 @@ Mano-P excels not only in enterprise-level business automation but also integrat
       <td style="text-align: center;">35.5</td>
     </tr>
     <tr>
-      <td style="text-align: left;"><strong>PRISM I</strong></td>
-      <td style="text-align: center;">15.8</td>
-      <td style="text-align: center;">39.4</td>
-      <td style="text-align: center;">12.9</td>
-      <td style="text-align: center;">40.4</td>
-    </tr>
-    <tr>
-      <td style="text-align: left;"><strong>PRISM II</strong></td>
-      <td style="text-align: center;">18.9</td>
-      <td style="text-align: center;">43.2</td>
-      <td style="text-align: center;">16.6</td>
-      <td style="text-align: center;">46.4</td>
-    </tr>
-    <tr>
       <td style="text-align: left;"><strong>Mano-P 1.0</strong></td>
       <td style="text-align: center;"><strong>20.2</strong></td>
       <td style="text-align: center;"><strong>46.5</strong></td>
@@ -936,7 +922,7 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 ---
 
-# 🔧 Skills
+## 🔧 Skills
 
 **Mano-Skill** is a desktop GUI automation tool based on the Mano model, driving cross-platform graphical interface operations through natural language. We provide three different usage forms for the same core capability to adapt to different usage scenarios and user groups.
 
@@ -1006,7 +992,7 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 ```bash
 # Install via Homebrew
-brew tap HanningWang/tap
+brew tap hanningwang/tap
 brew install mano-cua
 ```
 
@@ -1080,7 +1066,7 @@ client.stop()
 
 In Claude Code, skills exist as "commands". Installation steps:
 
-1. Download the skill zip package from [ClawHub](https://clawhub.ai/HanningWang/mano-cua)
+1. Download the skill zip package from [ClawHub](https://clawhub.ai/hanningwang/mano-cua)
 2. After extraction, copy files to Claude Code's commands directory
 3. Restart Claude Code or in a new session, the skill will be automatically available
 
@@ -1122,7 +1108,7 @@ Agent: [Automatically invokes mano-skill to complete GUI operation]
 **Project Resources**:
 
 - **Source Code**: [github.com/Mininglamp-AI/mano-skill](https://github.com/Mininglamp-AI/mano-skill)
-- **ClawHub Home**: [clawhub.ai/HanningWang/mano-cua](https://clawhub.ai/HanningWang/mano-cua)
+- **ClawHub Home**: [clawhub.ai/hanningwang/mano-cua](https://clawhub.ai/hanningwang/mano-cua)
 - **Version**: v1.0.0
 - **License**: MIT
 
@@ -1286,6 +1272,24 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
 
 ---
 
+## 🔗 Applications
+
+**Mano-AFK** — an autonomous full-cycle app builder that turns a single natural-language sentence into a deployed, tested, and bug-fixed application. It uses Mano-P as its local vision model to drive real-browser E2E testing, demonstrating a concrete application scenario of Mano-P in real-world software engineering pipelines.
+
+- GitHub: [github.com/Mininglamp-AI/mano-afk](https://github.com/Mininglamp-AI/mano-afk)
+- ClawHub: [clawhub.ai/hanningwang/mano-afk](https://clawhub.ai/hanningwang/mano-afk)
+
+**CUA Benchmark — Mano-P 4B on MacBook Pro M5 (16GB):**
+
+| Configuration | Accuracy  | Avg Steps | Avg Step Time | Avg Tokens/Step |
+| ------------- | --------- | --------- | ------------- | --------------- |
+| W8A16         | **58.0%** | 6.1       | 10.1s         | 3,389           |
+| W8A8          | **54.0%** | 6.93      | 10.4s         | 3,104           |
+
+The W8A8 configuration runs via [Cider](https://github.com/Mininglamp-AI/cider) for INT8 acceleration. The benchmark suite covers 100 test cases across 5 web applications — see [benchmark methodology](https://github.com/Mininglamp-AI/mano-afk/tree/master/benchmark) for details.
+
+---
+
 ## 📄 Technical Papers & Citation
 
 ### Related Papers
@@ -1389,11 +1393,11 @@ Mano-P is an **open-source GUI-VLA (Vision-Language-Action) agent** designed to 
 **CLI Tool:** ⏳ Planned
 
 ```bash
-brew tap HanningWang/tap && brew install mano-cua
+brew tap hanningwang/tap && brew install mano-cua
 ```
 
 **OpenClaw/Claude Code Skill:**
-See [ClawHub - Mano-CUA](https://clawhub.ai/HanningWang/mano-cua)
+See [ClawHub - Mano-CUA](https://clawhub.ai/hanningwang/mano-cua)
 
 </details>
 

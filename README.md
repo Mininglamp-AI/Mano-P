@@ -60,7 +60,7 @@ Mano-P builds upon the complete technical framework of the Mano project (see [Ma
 - **#1 on OSWorld Benchmark**: Mano-P 1.0-72B achieves **58.2% success rate on OSWorld**, ranking first among all specialized GUI agent models, outperforming the second-place opencua-72b (45.0%) by 13.2 percentage points
 - **Leading on WebRetriever Protocol I**: Mano-P 1.0 scores **41.7 NavEval**, surpassing Gemini 2.5 Pro Computer Use (40.9) and Claude 4.5 Computer Use (31.3)
 - **Fully Local Execution**: Runs inference locally on **Apple M4 chip with 32GB RAM** (Mac mini or MacBook). No cloud API calls required. All screenshots and task data stay on-device
-- **High-Performance Inference**: The 4B quantized model (w4a16) achieves **476 tokens/s prefill** and **76 tokens/s decode** on Apple M4 Pro, with only 4.3GB peak memory usage
+- **High-Performance Inference**: Mano-P 1.0-4B achieves **~80 tokens/s decode** on Apple M5 Pro; with Cider's W8A8 activation quantization, prefill speeds up by **~12.7%** over the W8A16 baseline
 - **Autonomous Long-Task Execution**: Supports **complex business processes** with end-to-end automation without internet connectivity
 - **Edge-Native INT8 Acceleration**: Companion [Cider](#-inference-sdk) SDK adds the W8A8 / W4A8 activation-quantization primitives MLX lacks natively, delivering **1.4x–2.2x prefill speedup** over MLX W4A16 on Apple M5 Pro — works with any MLX model, not just Mano-P
 - **Autonomous Software Construction**: [Mano-AFK](#-applications) drives a full PRD → code → deploy → test → fix loop using Mano-P as its local vision model for real-browser E2E testing — from a single natural-language prompt to a deployed, tested application, no human in the loop
@@ -1150,7 +1150,7 @@ We are continuously improving cross-platform compatibility. Feedback is welcome.
 
 ### Performance Evaluation
 
-The table below presents actual inference benchmark results of Mano-P 1.0-4B running on Apple M5 Pro with the Cider inference SDK. Using W8A16 (MLX's native weight-only quantization path) as the baseline — the same reference convention adopted in [Cider's LLM Quantization benchmark](#-inference-sdk) — enabling Cider's W8A8 activation quantization reduces prefill time from 2.839s to 2.519s on the same input, a **~12.7% prefill speedup**. For more data, refer to the [⚡ Inference SDK](#-inference-sdk) section below.
+The table below presents actual inference benchmark results of Mano-P 1.0-4B running on Apple M5 Pro with the Cider inference SDK. Using W8A16 (MLX's native weight-only quantization path) as the baseline — the same reference convention adopted in [Cider's quantization benchmark](#-inference-sdk) — enabling Cider's W8A8 activation quantization reduces prefill time from 2.839s to 2.519s on the same input, a **~12.7% prefill speedup**. For more data, refer to the [⚡ Inference SDK](#-inference-sdk) section below.
 
 <table>
   <thead>
@@ -1279,16 +1279,16 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
 
 ### Mano-P vs Traditional Solutions CUA Comparison
 
-| Feature             | Mano-P                 | OpenClaw                 | Manus                        | Traditional RPA                 |
-| ------------------- | ---------------------- | ------------------------ | ---------------------------- | ------------------------------- |
-| **Model Source**    | ✅ Built-in edge model | ⚠️ User-configured       | ⚠️ Cloud API calls           | ❌ No model (rule-based engine) |
-| **Data Security**   | ✅ Local execution     | ⚠️ LLM/skill cloud calls | ⚠️ Cloud inference           | ✅ Can be local                 |
-| **Control Method**  | ✅ Pure visual         | ⚠️ CDP protocol+CLI      | ❌ HTML parsing+CLI          | ❌ System API                   |
-| **Use Scenarios**   | ✅ All-platform GUI    | ✅ Cross-platform apps   | ⚠️ Web apps only             | ⚠️ Specific systems             |
-| **Long Task Plan**  | ✅ Autonomous planning | ✅ Autonomous planning   | ✅ Visual flow orchestration | ❌ Needs preset workflows       |
-| **Response Speed**  | ✅ Instant response    | ✅ Local/cloud execution | ⚠️ Cloud latency             | ✅ Instant response             |
-| **Deployment Cost** | ✅ Low-cost entry      | ✅ Open source & free    | ⚠️ Subscription fee          | ✅ Low cost                     |
-| **Robustness**      | ✅ UI change adaptive  | ✅ LLM adaptive          | ⚠️ Limited adaptation        | ❌ UI change needs reconfig     |
+| Feature             | Mano-P                           | OpenClaw                 | Manus                        | Traditional RPA                 |
+| ------------------- | -------------------------------- | ------------------------ | ---------------------------- | ------------------------------- |
+| **Model Source**    | ✅ Built-in edge model           | ⚠️ User-configured       | ⚠️ Cloud API calls           | ❌ No model (rule-based engine) |
+| **Data Security**   | ✅ Local execution               | ⚠️ LLM/skill cloud calls | ⚠️ Cloud inference           | ✅ Can be local                 |
+| **Control Method**  | ✅ Pure visual                   | ⚠️ CDP protocol+CLI      | ❌ HTML parsing+CLI          | ❌ System API                   |
+| **Use Scenarios**   | ✅ All-type GUI (desktop/Web/3D) | ✅ Multi-type apps       | ⚠️ Web apps only             | ⚠️ Specific systems             |
+| **Long Task Plan**  | ✅ Autonomous planning           | ✅ Autonomous planning   | ✅ Visual flow orchestration | ❌ Needs preset workflows       |
+| **Response Speed**  | ✅ Instant response              | ✅ Local/cloud execution | ⚠️ Cloud latency             | ✅ Instant response             |
+| **Deployment Cost** | ✅ Low-cost entry                | ✅ Open source & free    | ⚠️ Subscription fee          | ✅ Low cost                     |
+| **Robustness**      | ✅ UI change adaptive            | ✅ LLM adaptive          | ⚠️ Limited adaptation        | ❌ UI change needs reconfig     |
 
 ### Core Competitiveness
 
@@ -1311,13 +1311,13 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
 4. **Integrated Hardware Deployment**
    - Model + computing stick integrated solution, plug-and-play
    - Lowers technical barrier compared to OpenClaw (open-source & free but requires self-deployment)
-   - Cross-platform compatible, rapid deployment and launch
+   - Multiple deployment forms (direct Mac install / plug-and-play compute stick), rapid launch
 
 ---
 
 ## 🔗 Applications
 
-**Mano-AFK** — an autonomous full-cycle app builder that turns a single natural-language sentence into a deployed, tested, and bug-fixed application. It uses Mano-P as its local vision model to drive real-browser E2E testing, demonstrating a concrete application scenario of Mano-P in real-world software engineering pipelines.
+**Mano-AFK** — an autonomous full-cycle app builder that turns a single natural-language sentence into a deployed, tested, and bug-fixed application. Its E2E testing stage runs **by default with Mano-P as the local backend** (screenshots and task descriptions stay on-device); it can also switch to cloud mode driven by Anthropic's Claude CUA (requires `ANTHROPIC_API_KEY`; third-party service with no local alternative). Mano-AFK is a concrete application scenario of Mano-P in real-world software engineering pipelines.
 
 - GitHub: [github.com/Mininglamp-AI/mano-afk](https://github.com/Mininglamp-AI/mano-afk)
 - ClawHub: [clawhub.ai/hanningwang/mano-afk](https://clawhub.ai/hanningwang/mano-afk)

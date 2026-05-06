@@ -1434,12 +1434,12 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
 
 The suite evaluates 100 tasks across 5 web applications that were themselves built autonomously by Mano-AFK: **TripSplit** (expense splitting), **md-wechat** (Markdown → WeChat formatter), **OMS** (order management), **Family Ledger** (household bookkeeping), and **Life Dashboard** (personal widgets). Each app ships in two variants — a **golden** build (bug-free, expected verdict PASS, 76 tasks) and a **buggy** build with specific UI/logic defects injected (expected verdict FAIL, 24 tasks). Accuracy is defined as the share of tasks where the judge's verdict matches the expected label; each project contributes 15–16 golden tasks and 4–5 bug-injection tasks.
 
-| Configuration                                          | Accuracy  | Avg Steps | Avg Tokens/Step |
-| ------------------------------------------------------ | --------- | --------- | --------------- |
-| W8A16                                                  | **58.0%** | 6.1       | 3,389           |
-| W8A8 ([Cider](https://github.com/Mininglamp-AI/cider)) | **54.0%** | 6.93      | 3,104           |
+| Configuration                                          | Accuracy  | Avg Steps | Prefill Speed | Avg Tokens/Step |
+| ------------------------------------------------------ | --------- | --------- | ------------- | --------------- |
+| W8A16                                                  | **58.0%** | 6.1       | ~1,253 tok/s  | 3,389           |
+| W8A8 ([Cider](https://github.com/Mininglamp-AI/cider)) | **54.0%** | 6.93      | ~1,453 tok/s  | 3,104           |
 
-Metrics: _Accuracy_ — judge verdict matches expected PASS/FAIL; _Steps_ — actions taken per task; _Tokens/Step_ — prompt + generation tokens combined.
+Metrics: _Accuracy_ — judge verdict matches expected PASS/FAIL; _Steps_ — actions taken per task; _Prefill Speed_ — token throughput during the prefill phase; _Tokens/Step_ — prompt + generation tokens combined.
 
 > **Note on W8A8 on this hardware:** The W8A8 row runs via [Cider](https://github.com/Mininglamp-AI/cider) for INT8 activation quantization. W8A8 accelerates prefill through INT8 TensorOps, but it must hold both the original and the INT8 weights in memory simultaneously — roughly doubling weight footprint. On a 16 GB unified-memory device, the added pressure can trigger swapping that offsets the prefill gain, which is why W8A8 here lands slightly behind W8A16 on accuracy. At least 4 GB of free memory beyond the model size is recommended to see W8A8's full benefit.
 

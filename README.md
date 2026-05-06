@@ -1192,58 +1192,166 @@ The table below presents actual inference benchmark results of Mano-P 1.0-4B run
 
 ### Overview
 
-**Cider** is an inference acceleration SDK for Apple Silicon, built on top of Apple MLX. It implements the online activation-quantization operators that MLX does not ship natively, exposed as MLX custom primitives with full lazy-evaluation support. Cider also extends `mlx_vlm` with bug fixes and adds on-device inference services. It works with any MLX model — Qwen, Llama, Mistral, and VLMs like Qwen3-VL — via a one-line `convert_model()` API, and ships an OpenAI-compatible VLM inference server out of the box.
+**Cider** is an inference acceleration SDK developed on top of MLX for macOS. It provides online activation quantization operators absent in MLX, with custom int-matmul kernels built as MLX custom primitives supporting full lazy evaluation. It also includes service-side extensions and non-intrusive compatibility patches for `mlx_vlm` (validated on `mlx_vlm 0.4.3`), including fixes for Qwen3-VL multi-image inference issues related to RoPE position handling and chunked prefill.
+
+### Conditional Compilation (M4 / M5)
+
+Cider uses **conditional compilation**: the INT8 TensorOps C++ extension is only built on Apple M5+.
+
+| Chip             | `pip install -e .` behavior                   | `import cider` behavior                                        |
+| ---------------- | --------------------------------------------- | -------------------------------------------------------------- |
+| **M5+**          | Full build (CMake + Metal kernels)            | All features available                                         |
+| **M4 and below** | Skips C++ build, installs pure-Python package | `is_available()` → False, `convert_model()` is a warning no-op |
+
+**Override via environment variable:**
+
+```bash
+CIDER_FORCE_BUILD=1 pip install -e .   # Force build (e.g., CI)
+CIDER_FORCE_BUILD=0 pip install -e .   # Force skip
+```
 
 ### Modes
 
-| Mode     | Weights             | Activations    | Compute Path       | Status    |
-| -------- | ------------------- | -------------- | ------------------ | --------- |
-| **W8A8** | INT8 per-column     | INT8 per-token | TensorOps matmul2d | ✅ Stable |
-| **W4A8** | INT4 packed (uint8) | INT8 per-token | Unpack → TensorOps | ✅ Stable |
-| W4A16    | —                   | —              | MLX built-in       | Baseline  |
-| W8A16    | —                   | —              | MLX built-in       | Baseline  |
+| Mode     | Weights             | Activations    | Compute Path       | Status         |
+| -------- | ------------------- | -------------- | ------------------ | -------------- |
+| **W8A8** | INT8 symmetric      | INT8 per-token | TensorOps matmul2d | ✅ Implemented |
+| **W4A8** | INT4 packed (uint8) | INT8 per-token | Unpack → TensorOps | ✅ Implemented |
+| W4A16    | —                   | —              | MLX built-in       | Baseline       |
+| W8A16    | —                   | —              | MLX built-in       | Baseline       |
 
-MLX natively supports **W4A16** and **W8A16** only; Cider fills in the missing **W8A8** and **W4A8** modes. MLX's native quantization is weight-only (`QuantizedLinear` dequantizes weights to FP16 and runs FP16 GEMM), while Cider provides true INT8 activation quantization plus INT8 TensorOps compute via fused quantize-matmul-dequant primitives:
+**W4A16 and W8A16 are already supported by MLX natively** — this SDK provides the missing **W8A8** and **W4A8** modes that MLX does not implement.
 
-- **W8A8**: 1.4x–2.2x faster than MLX W4A16 depending on batch size
-- **W4A8**: half the weight memory of W8A8, competitive with MLX W4A16 at batch sizes ≥ 16
+MLX's quantization is **weight-only**: `QuantizedLinear` dequantizes weights to FP16 and uses FP16 GEMM. While MLX's Steel NAX templates are generic enough to be instantiated with INT8 types (and would achieve identical raw matmul throughput — [see the transparent benchmark](https://github.com/Mininglamp-AI/cider/blob/main/benchmarks/mlx_native/cider_vs_mlx_int8.md)), MLX does not provide the quantization/dequantization pipeline needed for actual W8A8 inference. Cider fills this gap with fused quantize-matmul-dequant primitives, implementing online INT8 activation quantization and INT8 TensorOps-based compute for the supported inference paths.
 
-### Performance (Apple M5 Pro, 4096×4096)
+#### W8A8 Quantization Granularity
+
+| Granularity            | Description                  | Speed                   | Precision                    |
+| ---------------------- | ---------------------------- | ----------------------- | ---------------------------- |
+| **Per-channel**        | One scale per output channel | Fastest (1.8x prefill)  | Slightly lower               |
+| **Per-group (gs=128)** | One scale per 128 elements   | Fast (1.5x prefill)     | Moderate precision retention |
+| **Per-group (gs=64)**  | One scale per 64 elements    | Moderate (1.3x prefill) | Higher precision             |
+
+### Performance (Apple M5 Pro)
 
 **Individual Operator Latency**
 
-| M   | W8A8   | W4A8   | MLX W4A16 | W8A8 vs W4A16 |
-| --- | ------ | ------ | --------- | ------------- |
-| 1   | 0.47ms | 0.52ms | 0.21ms    | 0.44x         |
-| 16  | 0.23ms | 0.32ms | 0.34ms    | **1.48x**     |
-| 64  | 0.24ms | 0.40ms | 0.53ms    | **2.21x**     |
-| 128 | 0.29ms | 0.47ms | 0.40ms    | **1.38x**     |
-| 256 | 0.41ms | 0.69ms | 0.71ms    | **1.73x**     |
+Shape [N=10240, K=2560]
 
-**End-to-End VLM Prefill (Qwen3-VL-2B, chunked prefill chunk=2048, bfloat16 model)**
+| M    | PC(ms) | PG(ms)  | w8a16   | w4a16   | PC/w8 | PC/w4 | PG/w8 | PG/w4 |
+| ---- | ------ | ------- | ------- | ------- | ----- | ----- | ----- | ----- |
+| 1    | 0.27ms | 0.26ms  | 0.26ms  | 0.18ms  | 0.96x | 0.67x | 0.99x | 0.69x |
+| 128  | 0.34ms | 0.39ms  | 0.49ms  | 0.44ms  | 1.43x | 1.28x | 1.26x | 1.13x |
+| 1024 | 1.23ms | 1.52ms  | 2.24ms  | 2.04ms  | 1.82x | 1.66x | 1.47x | 1.34x |
+| 4096 | 4.41ms | 5.65ms  | 8.12ms  | 7.72ms  | 1.84x | 1.75x | 1.44x | 1.37x |
+| 8192 | 8.71ms | 11.40ms | 16.23ms | 15.09ms | 1.86x | 1.73x | 1.42x | 1.32x |
 
-| Tokens | BF16 (baseline) | W8A8 Prefill | Speedup   |
-| ------ | --------------- | ------------ | --------- |
-| 1334   | 159ms           | **134ms**    | **1.19x** |
-| 2393   | 298ms           | **254ms**    | **1.17x** |
-| 3455   | 432ms           | **374ms**    | **1.15x** |
+Shape [N=2560, K=10240]
 
-Decode uses the original weights (zero overhead); mode switching is instant.
+| M    | PC(ms)  | PG(ms)  | w8a16   | w4a16   | PC/w8 | PC/w4 | PG/w8 | PG/w4 |
+| ---- | ------- | ------- | ------- | ------- | ----- | ----- | ----- | ----- |
+| 1    | 0.25ms  | 0.26ms  | 0.26ms  | 0.20ms  | 1.03x | 0.78x | 0.98x | 0.75x |
+| 128  | 0.39ms  | 0.41ms  | 0.55ms  | 0.46ms  | 1.43x | 1.19x | 1.35x | 1.12x |
+| 1024 | 1.31ms  | 1.65ms  | 2.35ms  | 2.14ms  | 1.80x | 1.64x | 1.43x | 1.30x |
+| 4096 | 5.37ms  | 6.79ms  | 8.54ms  | 8.04ms  | 1.59x | 1.50x | 1.26x | 1.18x |
+| 8192 | 10.97ms | 12.94ms | 17.28ms | 16.23ms | 1.58x | 1.48x | 1.34x | 1.25x |
 
-**LLM Quantization: Precision vs. Speed**
+**End-to-End VLM**
 
-| Model     | Quantization    | wikitext2 PPL ↓ | Prefill (tokens/s) ↑ |
-| --------- | --------------- | --------------- | -------------------- |
-| Qwen3-8B  | FP16            | 9.729           | 1695                 |
-| Qwen3-8B  | W4A16 (AWQ)     | 9.991           | 1628                 |
-| Qwen3-8B  | W8A16 (GPTQ)    | 9.707           | 1484                 |
-| Qwen3-8B  | **W8A8 (GPTQ)** | 9.756           | **2531**             |
-| Llama3-8B | FP16            | 6.138           | 1727                 |
-| Llama3-8B | W4A16 (GPTQ)    | 6.809           | 1579                 |
-| Llama3-8B | W8A16 (GPTQ)    | 6.147           | 1477                 |
-| Llama3-8B | **W8A8 (GPTQ)** | 6.271           | **2520**             |
+_Qwen3-VL-2B_
 
-An experimental **ANE+GPU heterogeneous tensor parallelism** mode on M4 adds another 3%–16% by offloading ~65% of output channels to the Apple Neural Engine during prefill.
+| Prompt Tokens | FP16 Prefill (tok/s) | W8A16 Prefill (tok/s) | **W8A8 PC Prefill (tok/s)** | FP16 Decode (tok/s) | W8A16 Decode (tok/s) | **W8A8 PC Decode (tok/s)** |
+| :-----------: | :------------------: | :-------------------: | :-------------------------: | :-----------------: | :------------------: | :------------------------: |
+|     1334      |         3010         |         2065          |          **3242**           |         70          |         107          |          **104**           |
+|     2393      |         2868         |         1847          |          **2983**           |         69          |          97          |          **100**           |
+|     3455      |         2777         |         1741          |          **2796**           |         66          |          90          |           **95**           |
+
+_Qwen3-VL-4B_
+
+| Prompt Tokens | FP16 Prefill (tok/s) | W8A16 Prefill (tok/s) | **W8A8 PC Prefill (tok/s)** | FP16 Decode (tok/s) | W8A16 Decode (tok/s) | **W8A8 PC Decode (tok/s)** |
+| :-----------: | :------------------: | :-------------------: | :-------------------------: | :-----------------: | :------------------: | :------------------------: |
+|     1334      |         1884         |         1786          |          **2186**           |         32          |        **56**        |             54             |
+|     2393      |         1815         |         1700          |          **2028**           |         31          |        **55**        |             52             |
+|     3455      |         1755         |         1603          |          **1881**           |         30          |        **52**        |             49             |
+
+**LLM Quantization: Precision vs. Speed Comparison**
+
+<table>
+  <thead>
+    <tr>
+      <th>Models</th>
+      <th>Quantization Configuration</th>
+      <th>wikitext2 PPL (↓)</th>
+      <th>Prefill Time (s) (↓)</th>
+      <th>Peak Memory (GB) (↓)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="5"><b>Qwen3-8B</b></td>
+      <td>FP16</td>
+      <td>9.726</td>
+      <td>179.9</td>
+      <td>18.93</td>
+    </tr>
+    <tr>
+      <td>W8A16 (mlx RTN)</td>
+      <td>9.707</td>
+      <td>221.3</td>
+      <td>12.07</td>
+    </tr>
+    <tr>
+      <td>W8A8 (per-channel)</td>
+      <td>9.756</td>
+      <td><b>123.5</b></td>
+      <td><b>11.32</b></td>
+    </tr>
+    <tr>
+      <td>W8A8 (per-group gs=64)</td>
+      <td>9.744</td>
+      <td>179.1</td>
+      <td>11.83</td>
+    </tr>
+    <tr>
+      <td>W8A8 (per-group gs=128)</td>
+      <td>9.727</td>
+      <td>165.8</td>
+      <td>11.61</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td rowspan="5"><b>Llama3-8B</b></td>
+      <td>FP16</td>
+      <td>6.138</td>
+      <td>175.8</td>
+      <td>18.32</td>
+    </tr>
+    <tr>
+      <td>W8A16 (mlx RTN)</td>
+      <td>6.147</td>
+      <td>236.9</td>
+      <td>11.46</td>
+    </tr>
+    <tr>
+      <td>W8A8 (per-channel)</td>
+      <td>6.271</td>
+      <td><b>123.3</b></td>
+      <td><b>10.69</b></td>
+    </tr>
+    <tr>
+      <td>W8A8 (per-group, gs=64)</td>
+      <td>6.269</td>
+      <td>178.7</td>
+      <td>11.19</td>
+    </tr>
+    <tr>
+      <td>W8A8 (per-group, gs=128)</td>
+      <td>6.270</td>
+      <td>155.7</td>
+      <td>10.98</td>
+    </tr>
+  </tbody>
+</table>
 
 - 🔗 Repository: [github.com/Mininglamp-AI/cider](https://github.com/Mininglamp-AI/cider)
 
@@ -1327,7 +1435,7 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
 The suite evaluates 100 tasks across 5 web applications that were themselves built autonomously by Mano-AFK: **TripSplit** (expense splitting), **md-wechat** (Markdown → WeChat formatter), **OMS** (order management), **Family Ledger** (household bookkeeping), and **Life Dashboard** (personal widgets). Each app ships in two variants — a **golden** build (bug-free, expected verdict PASS, 76 tasks) and a **buggy** build with specific UI/logic defects injected (expected verdict FAIL, 24 tasks). Accuracy is defined as the share of tasks where the judge's verdict matches the expected label; each project contributes 15–16 golden tasks and 4–5 bug-injection tasks.
 
 | Configuration                                          | Accuracy  | Avg Steps | Avg Tokens/Step |
-|--------------------------------------------------------| --------- | --------- | --------------- |
+| ------------------------------------------------------ | --------- | --------- | --------------- |
 | W8A16                                                  | **58.0%** | 6.1       | 3,389           |
 | W8A8 ([Cider](https://github.com/Mininglamp-AI/cider)) | **54.0%** | 6.93      | 3,104           |
 

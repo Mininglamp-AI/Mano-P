@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>明略科技 · 开源社区周报 · 4/20-5/8</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+/* Layout - Landscape Dashboard */
+.app { display: flex; min-height: 100vh; }
+
+/* Sidebar Navigation */
+.sidebar { width: 260px; background: #1e293b; border-right: 1px solid #334155; padding: 24px 0; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
+.sidebar-header { padding: 0 20px 24px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.sidebar-header h1 { font-size: 16px; color: #f1f5f9; margin-bottom: 4px; }
+.sidebar-header .sub { font-size: 12px; color: #64748b; }
+.nav-item { display: flex; align-items: center; padding: 12px 20px; cursor: pointer; transition: all 0.2s; color: #94a3b8; font-size: 14px; border-left: 3px solid transparent; }
+.nav-item:hover { background: #334155; color: #f1f5f9; }
+.nav-item.active { background: #1e3a5f; color: #38bdf8; border-left-color: #38bdf8; }
+.nav-item .icon { margin-right: 10px; font-size: 16px; }
+.nav-item .badge { margin-left: auto; background: #ef4444; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+
+/* Main Content */
+.main { margin-left: 260px; flex: 1; padding: 32px 40px; min-width: 0; }
+
+/* Sections (pages) */
+.section { display: none; animation: fadeIn 0.3s ease; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Section Headers */
+.section-title { font-size: 22px; font-weight: 700; color: #f8fafc; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+.section-title .emoji { font-size: 24px; }
+
+/* Cards */
+.card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+.card-title { font-size: 16px; font-weight: 600; color: #f1f5f9; margin-bottom: 16px; }
+
+/* Stats Grid */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 20px; text-align: center; }
+.stat-card .value { font-size: 32px; font-weight: 800; color: #f8fafc; }
+.stat-card .delta { font-size: 14px; color: #4ade80; margin-top: 4px; }
+.stat-card .delta.negative { color: #f87171; }
+.stat-card .label { font-size: 12px; color: #64748b; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #334155; text-align: left; padding: 12px 14px; font-weight: 600; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+td { padding: 12px 14px; border-bottom: 1px solid #1e293b; color: #cbd5e1; }
+tr:hover td { background: #334155; }
+tbody tr { background: #1e293b; }
+
+/* Tags */
+.tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.tag-bug { background: #451a1a; color: #fca5a5; }
+.tag-question { background: #1e3a5f; color: #93c5fd; }
+.tag-feature { background: #14532d; color: #86efac; }
+.tag-feedback { background: #422006; color: #fcd34d; }
+.tag-pr { background: #2e1065; color: #c4b5fd; }
+.tag-open { background: #14532d; color: #4ade80; }
+.tag-closed { background: #374151; color: #9ca3af; }
+
+/* Platform Cards */
+.platform-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+.platform-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.platform-name { font-size: 18px; font-weight: 700; color: #f8fafc; }
+.platform-stats { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
+.platform-stat { text-align: center; }
+.platform-stat .val { font-size: 20px; font-weight: 700; color: #f8fafc; }
+.platform-stat .lbl { font-size: 11px; color: #64748b; }
+.platform-stat .chg { font-size: 12px; color: #4ade80; }
+
+/* Action Items */
+.action-box { background: #0f2942; border: 1px solid #1e4976; border-radius: 8px; padding: 16px; margin-top: 12px; }
+.action-box h4 { color: #38bdf8; font-size: 13px; margin-bottom: 8px; }
+.action-box ul { padding-left: 18px; }
+.action-box li { color: #94a3b8; font-size: 13px; margin-bottom: 6px; line-height: 1.5; }
+
+/* Summary Boxes */
+.insight-box { background: #1a2e1a; border: 1px solid #2d5a2d; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.insight-box h4 { color: #4ade80; font-size: 13px; margin-bottom: 8px; }
+.insight-box p { color: #a7f3d0; font-size: 13px; line-height: 1.6; }
+
+.warning-box { background: #2a1a0a; border: 1px solid #7c4a0a; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.warning-box h4 { color: #fbbf24; font-size: 13px; margin-bottom: 8px; }
+.warning-box ul { padding-left: 18px; }
+.warning-box li { color: #fde68a; font-size: 13px; margin-bottom: 4px; }
+
+/* Referrer bar chart */
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 140px; font-size: 12px; color: #94a3b8; text-align: right; padding-right: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-track { flex: 1; height: 22px; background: #334155; border-radius: 4px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #818cf8); border-radius: 4px; transition: width 0.5s; }
+.bar-value { position: absolute; right: 8px; top: 3px; font-size: 11px; color: #f1f5f9; font-weight: 600; }
+
+a { color: #38bdf8; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .sidebar { width: 60px; }
+  .sidebar-header, .nav-item span { display: none; }
+  .main { margin-left: 60px; padding: 20px; }
+  .nav-item { justify-content: center; padding: 14px; }
+  .nav-item .icon { margin: 0; font-size: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <h1>明略科技</h1>
+    <div class="sub">开源社区周报 · 4/20-5/8</div>
+  </div>
+  <div class="nav-item active" onclick="showSection('overview')">
+    <span class="icon">📊</span><span>数据概览</span>
+  </div>
+  <div class="nav-item" onclick="showSection('platforms')">
+    <span class="icon">🌐</span><span>各平台情况</span>
+  </div>
+  <div class="nav-item" onclick="showSection('traffic')">
+    <span class="icon">🔗</span><span>流量来源</span>
+  </div>
+  <div class="nav-item" onclick="showSection('feedback')">
+    <span class="icon">💬</span><span>用户反馈</span>
+  </div>
+  <div class="nav-item" onclick="showSection('events')">
+    <span class="icon">📅</span><span>本周大事记</span>
+  </div>
+  <div class="nav-item" onclick="showSection('summary')">
+    <span class="icon">📝</span><span>周度总结</span>
+  </div>
+</nav>
+
+<!-- Main Content Area -->
+<main class="main">
+
+<!-- ==================== 数据概览 ==================== -->
+<div class="section active" id="sec-overview">
+  <div class="section-title"><span class="emoji">📊</span> 数据概览（4/20 → 5/8，共 19 天）</div>
+
+  <div class="card">
+    <div class="card-title">GitHub 全仓库汇总</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="value">1,610</div>
+        <div class="delta">+753（+88%）</div>
+        <div class="label">⭐ Mano-P Star</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">266</div>
+        <div class="delta">新仓库 🆕</div>
+        <div class="label">⭐ Cider Star</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">27</div>
+        <div class="delta">新仓库 🆕</div>
+        <div class="label">⭐ mano-skill Star</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">6</div>
+        <div class="delta">新仓库 🆕</div>
+        <div class="label">⭐ mano-afk Star</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">148</div>
+        <div class="delta">+65（+78%）</div>
+        <div class="label">🔀 Mano-P Fork</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">15</div>
+        <div class="delta">—</div>
+        <div class="label">👀 Watch/Subscribe</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">13</div>
+        <div class="delta">期间新增（4/20-5/8）</div>
+        <div class="label">🐛 Mano-P Issues</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">3</div>
+        <div class="delta">期间新增 1 条</div>
+        <div class="label">💬 Discussions</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">8,339</div>
+        <div class="delta">3,371 unique</div>
+        <div class="label">👁️ 14天 Views</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">892</div>
+        <div class="delta">563 unique</div>
+        <div class="label">📥 14天 Clones</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">八大内容平台数据对比（4/20 vs 5/8）</div>
+    <table>
+      <thead>
+        <tr><th>平台</th><th>文章数</th><th>新增</th><th>总阅读</th><th>增量</th><th>增长率</th><th>互动</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>CSDN</strong></td><td>17</td><td>+11</td><td>6,300</td><td>+4,038</td><td style="color:#4ade80">+178% 🔥</td><td>140赞 · 125收藏</td></tr>
+        <tr><td><strong>掘金</strong></td><td>20</td><td>+12</td><td>1,441</td><td>+842</td><td style="color:#4ade80">+141%</td><td>2赞 · 0评论</td></tr>
+        <tr><td><strong>开源中国</strong></td><td>13</td><td>+5</td><td>1,293</td><td>+225</td><td style="color:#4ade80">+21%</td><td>3赞 · 0评论</td></tr>
+        <tr><td><strong>DEV.to</strong></td><td>17</td><td>+10</td><td>602</td><td>+325</td><td style="color:#4ade80">+117%</td><td>3 reactions · 2 comments</td></tr>
+        <tr><td><strong>知乎</strong></td><td>23文+19答</td><td>+7文</td><td>—</td><td>—</td><td>—</td><td>8赞 · 引流44次→GitHub</td></tr>
+        <tr><td><strong>Reddit</strong></td><td>0 帖</td><td>—</td><td>—</td><td>—</td><td>—</td><td>karma 91（养号中）</td></tr>
+        <tr><td><strong>HN</strong></td><td>1 帖</td><td>—</td><td>—</td><td>—</td><td>—</td><td>0 points</td></tr>
+        <tr><td><strong>GitHub</strong></td><td>—</td><td>—</td><td>8,339 views</td><td>—</td><td>—</td><td>3 Discussions · 15 Issues</td></tr>
+      </tbody>
+    </table>
+    <div class="insight-box">
+      <h4>📈 关键信号</h4>
+      <p>CSDN 阅读增速最猛（+178%），是阅读量绝对第一平台（6,300）。但 CSDN→GitHub 引流仅 18 次（占总流量 0.2%），转化链路待优化。掘金阅读绝对值低但增速快（+141%），DEV.to 海外阅读稳步增长。开源中国增速较慢（+21%），新文平均仅 45 阅读/篇，账号权重和平台推荐流量待提升。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">子仓库数据汇总（均为 5/6 后新开源）</div>
+    <table>
+      <thead><tr><th>仓库</th><th>Star</th><th>Fork</th><th>Issues</th><th>14天 Views</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/Mininglamp-AI/cider">Cider</a></td><td>266</td><td>10</td><td>0</td><td>555 (263 unique)</td><td>INT8 激活量化 SDK for MLX</td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/mano-skill">mano-skill</a></td><td>27</td><td>10</td><td>5</td><td>707 (350 unique)</td><td>Mano-P Agent Skill</td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/mano-afk">mano-afk</a></td><td>6</td><td>0</td><td>0</td><td>162 (62 unique)</td><td>一句话构建 App</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 各平台情况 ==================== -->
+<div class="section" id="sec-platforms">
+  <div class="section-title"><span class="emoji">🌐</span> 各平台运营详情与优化方案</div>
+
+  <div class="card">
+    <div class="card-title">📝 平台运营整体总结</div>
+    <div class="insight-box">
+      <h4>✅ 已做了什么</h4>
+      <p>19 天内全平台新增 50+ 篇内容（CSDN +11、掘金 +12、DEV.to +10、知乎 +7、开源中国 +5），覆盖国内外 8 个主要技术社区。Reddit 养号 karma 从 1 到 91。全平台累计阅读突破 10,000。</p>
+    </div>
+    <div class="warning-box">
+      <h4>⚠️ 当前问题</h4>
+      <ul>
+        <li><strong>转化链路有提升空间：</strong>CSDN 阅读量优秀（6,300）但 GitHub 引流仅 21 次（0.3%），掘金/开源中国/DEV.to 因中间页跳转未被完整统计，实际引流高于显示值</li>
+        <li><strong>互动待提升：</strong>掘金 20 篇仅 2 赞 0 评论，开源中国新文平均 45 阅读/篇（账号权重待积累，推荐流量在逐步提升），账号权重低导致平台推荐流量少</li>
+        <li><strong>海外平台未突破：</strong>HN 0 points、Reddit 还在养号，海外用户触达主要靠 Google 搜索自然流量</li>
+      </ul>
+    </div>
+    <div class="insight-box">
+      <h4>🎯 未来重点</h4>
+      <p><strong>重点平台（按优先级）：</strong><br>
+      ① <strong>知乎</strong>（引流转化率最高，回答式内容直接带来 GitHub 点击）<br>
+      ② <strong>CSDN</strong>（阅读量大、转化链路有优化空间，修复 CTA 后 ROI 最高）<br>
+      ③ <strong>Reddit/HN</strong>（爆发式增长的关键触发点，养号就绪后立即执行）<br>
+      <strong>核心策略：</strong>“内容平台做转化、海外平台做爆发”——国内平台重点解决「阅读→Star」转化率，海外平台重点等待一次性爆发机会。</p>
+    </div>
+  </div>
+
+  <!-- CSDN -->
+  <div class="platform-card">
+    <div class="platform-header"><div class="platform-name">📘 CSDN</div><div class="tag tag-feature">阅读量 #1</div></div>
+    <div class="platform-stats">
+      <div class="platform-stat"><div class="val">6,300</div><div class="lbl">总阅读</div><div class="chg">+4,038 (+178%)</div></div>
+      <div class="platform-stat"><div class="val">17</div><div class="lbl">文章数</div><div class="chg">+11 篇</div></div>
+      <div class="platform-stat"><div class="val">140</div><div class="lbl">点赞</div><div class="chg">+140</div></div>
+      <div class="platform-stat"><div class="val">125</div><div class="lbl">收藏</div><div class="chg">+125</div></div>
+      <div class="platform-stat"><div class="val">18</div><div class="lbl">→GitHub 引流</div><div class="chg" style="color:#f87171">仅 0.3%</div></div>
+    </div>
+    <p style="font-size:13px;color:#94a3b8;margin-bottom:12px;"><strong>高阅读文章分析：</strong>排名第一文章（578 阅读）是首篇发布的产品介绍类文章，证明「产品首发+痛点标题」是 CSDN 最有效的内容形态。新增的 11 篇中，技术教程类和对比分析类阅读较高。</p>
+    <div class="action-box">
+      <h4>🎯 下一步行动（CSDN）</h4>
+      <ul>
+        <li><strong>提升 GitHub 转化（当前 0.3% → 目标 3%）：</strong>每篇文章开头和结尾各插入一次「⭐ GitHub 仓库」CTA，使用追踪短链 is.gd/7cjIMb；标题带「开源」「GitHub」关键词提升搜索触达</li>
+        <li><strong>提升互动：</strong>文章末尾加「你更关注哪个场景？评论区聊聊」引导问题；回复所有评论（当前 0 评论，需要破冰）</li>
+        <li><strong>内容策略：</strong>保持高频更新（3-4篇/周），侧重「XX 实测」「XX vs XX 对比」类强标题。参考高阅读规律：痛点标题+实操截图+代码示例的组合最吸引 CSDN 用户</li>
+        <li><strong>提升账号权重+曝光：</strong>每天主动评论 3-5 篇同领域热帖（AI Agent/GUI 自动化/苹果开发），参与问答板块回答相关问题。CSDN 推荐算法重视账号活跃度和互动频率，评论其他创作者帖子可获得回访流量</li>
+        <li><strong>目的：</strong>CSDN 用户基数大、阅读表现优秀，打通「阅读→点击GitHub链接→Star」转化链路是当前 ROI 最高的优化点</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 掘金 -->
+  <div class="platform-card">
+    <div class="platform-header"><div class="platform-name">⛏️ 掘金</div><div class="tag tag-feedback">增速快·互动待提升</div></div>
+    <div class="platform-stats">
+      <div class="platform-stat"><div class="val">1,441</div><div class="lbl">总阅读</div><div class="chg">+842 (+141%)</div></div>
+      <div class="platform-stat"><div class="val">20</div><div class="lbl">文章数</div><div class="chg">+12 篇</div></div>
+      <div class="platform-stat"><div class="val">2</div><div class="lbl">点赞</div><div class="chg" style="color:#fbbf24">待提升</div></div>
+      <div class="platform-stat"><div class="val">0</div><div class="lbl">评论</div><div class="chg" style="color:#f87171">零互动</div></div>
+    </div>
+    <p style="font-size:13px;color:#94a3b8;margin-bottom:12px;"><strong>问题诊断：</strong>20 篇文章仅 2 个赞、0 评论，互动率 0.14%，远低于掘金平均水平（约 2-5%）。头部文章 578 阅读但 0 赞，说明内容「看了但不想互动」——可能过于官方/产品导向，缺少开发者共鸣点。无文章下架。</p>
+    <div class="action-box">
+      <h4>🎯 下一步行动（掘金）</h4>
+      <ul>
+        <li><strong>改变内容调性（从"官方发布"→"开发者日记"）：</strong>掘金用户偏好「我踩坑了/我实测了/我对比了」的第一人称叙事，产品宣传类文章天然低互动。建议下周试 2 篇「实测日记」类文章</li>
+        <li><strong>标题优化公式：</strong>数字+悬念+痛点，如「Mac 上让 AI 自动发微信，实测 3 种方案对比」而非「Mano-P 功能介绍」</li>
+        <li><strong>互动引导：</strong>结尾加投票式提问「你会优先尝试：A 本地模型 B 云端模式？」；发布后 30 分钟内用作者账号回复第一条评论（破冰效应）</li>
+        <li><strong>蹭热榜策略：</strong>掘金 AI 榜 Top20 多为「XX 实战」「XX 避坑」类文章，追热点+实操 combo 最容易上榜</li>
+        <li><strong>提升账号权重+曝光：</strong>每天在掘金沸点/评论区主动互动 5-10 条，关注并评论 AI/前端/开源领域头部创作者的文章。参与掘金「每日一题」和话题讨论。掘金推荐算法强依赖账号活跃度指标，提升账号活跃度有助于获得更多平台推荐流量</li>
+        <li><strong>目的：</strong>将掘金从「低质量曝光」转为「高质量开发者触达+引流」，需要先解决互动率问题才能获得平台推荐流量</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 开源中国 -->
+  <div class="platform-card">
+    <div class="platform-header"><div class="platform-name">🟢 开源中国</div><div class="tag tag-feedback">增速偏慢</div></div>
+    <div class="platform-stats">
+      <div class="platform-stat"><div class="val">1,293</div><div class="lbl">总阅读</div><div class="chg">+225（+21%）</div></div>
+      <div class="platform-stat"><div class="val">13</div><div class="lbl">文章数</div><div class="chg">+5 篇</div></div>
+      <div class="platform-stat"><div class="val">225</div><div class="lbl">新文阅读</div><div class="chg">5篇均已有阅读</div></div>
+      <div class="platform-stat"><div class="val">3</div><div class="lbl">点赞</div><div class="chg">+3</div></div>
+    </div>
+    
+    <div class="action-box">
+      <h4>🎯 下一步行动（开源中国）</h4>
+      <ul>
+        <li><strong>持续提升发文质量：</strong>当前新文平均 45 阅读/篇，可结合热榜话题优化标题和内容角度，目标提升至 100+/篇</li>
+        <li><strong>利用软件收录页：</strong>Mano-P 已有软件收录页（oschina.net/p/Mano-P），需完善信息并保持更新，这是开源中国的核心引流入口</li>
+        <li><strong>参与社区互动：</strong>在「动弹」板块日常发言，提升账号活跃度和可见度；回复相关技术博客的评论引流到自己文章</li>
+        <li><strong>内容调性：</strong>开源中国用户偏好「项目解读+快速上手」，标题带「开源」「上手」「实测」比较吸引点击</li>
+        <li><strong>目的：</strong>开源中国是国内开源圈核心阵地，1,068 阅读不应该是天花板。修复数据+调整内容后目标 3,000+</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 知乎 -->
+  <div class="platform-card">
+    <div class="platform-header"><div class="platform-name">🔵 知乎</div><div class="tag tag-feature">引流主力</div></div>
+    <div class="platform-stats">
+      <div class="platform-stat"><div class="val">23文+19答</div><div class="lbl">内容量</div><div class="chg">+7文</div></div>
+      <div class="platform-stat"><div class="val">8</div><div class="lbl">赞同</div><div class="chg">+1</div></div>
+      <div class="platform-stat"><div class="val">44</div><div class="lbl">→GitHub 引流</div><div class="chg">引流效率高</div></div>
+      <div class="platform-stat"><div class="val">0</div><div class="lbl">粉丝</div><div class="chg" style="color:#f87171">待增长</div></div>
+    </div>
+    <p style="font-size:13px;color:#94a3b8;margin-bottom:12px;"><strong>优势：</strong>知乎→GitHub 引流 44 次是所有内容平台中转化率最高的（相对于阅读量）。知乎用户本身就有技术探索意愿，点击 GitHub 链接的意愿强。回答（19 篇）覆盖了 GUI Agent 相关问题，长尾流量可观。</p>
+    <div class="action-box">
+      <h4>🎯 下一步行动（知乎）</h4>
+      <ul>
+        <li><strong>加大回答力度（当前最高杠杆动作）：</strong>知乎回答→GitHub 转化率远高于文章。继续找「AI Agent」「GUI 自动化」「苹果 AI」等相关问题作答，每周 5+ 条新回答</li>
+        <li><strong>优化回答结构：</strong>开头用一句话 hook，中间讲技术原理/对比，结尾自然植入「开源项目 Mano-P 就是这个方向的实践」+ GitHub 链接</li>
+        <li><strong>提升粉丝：</strong>当前 0 粉丝限制了内容分发。持续高质量回答+互动是涨粉唯一路径，目标 4 周内 50+ 粉</li>
+        <li><strong>目的：</strong>知乎是国内开发者做技术决策的重要信源，高质量回答 = 长期免费引流管道，且转化率最高</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DEV.to -->
+  <div class="platform-card">
+    <div class="platform-header"><div class="platform-name">🖤 DEV.to</div><div class="tag tag-feature">海外主力</div></div>
+    <div class="platform-stats">
+      <div class="platform-stat"><div class="val">602</div><div class="lbl">总阅读</div><div class="chg">+325 (+117%)</div></div>
+      <div class="platform-stat"><div class="val">17</div><div class="lbl">文章数</div><div class="chg">+10 篇</div></div>
+      <div class="platform-stat"><div class="val">3</div><div class="lbl">Reactions</div><div class="chg">+3</div></div>
+      <div class="platform-stat"><div class="val">2</div><div class="lbl">Comments</div><div class="chg">+2</div></div>
+    </div>
+    <div class="action-box">
+      <h4>🎯 下一步行动（DEV.to）</h4>
+      <ul>
+        <li><strong>增加互动：</strong>主动关注和评论同领域作者（AI Agent/MLX/Apple AI），建立社区存在感</li>
+        <li><strong>内容策略：</strong>DEV.to 偏好「Tutorial」「How-to」类实操文。下周发 1 篇「How to run a GUI Agent locally on your Mac in 5 minutes」教程型文章</li>
+        <li><strong>Tag 优化：</strong>使用 #ai #machinelearning #opensource #python 等高流量 tag</li>
+        <li><strong>提升账号权重+曝光：</strong>每周主动评论 10+ 篇同领域文章（AI Agent/MLX/Local AI），follow 相关作者并参与 Discussion。DEV.to 社区氛围强调互助，积极评论可快速积累 followers 和被推荐概率</li>
+        <li><strong>目的：</strong>DEV.to 文章有 Google SEO 权重，长期积累后会成为稳定的海外有机流量来源</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Reddit -->
+  <div class="platform-card">
+    <div class="platform-header"><div class="platform-name">🟠 Reddit</div><div class="tag tag-feedback">养号阶段</div></div>
+    <div class="platform-stats">
+      <div class="platform-stat"><div class="val">91</div><div class="lbl">Karma</div><div class="chg">+90</div></div>
+      <div class="platform-stat"><div class="val">0</div><div class="lbl">发帖数</div><div class="chg">—</div></div>
+    </div>
+    <div class="action-box">
+      <h4>🎯 下一步行动（Reddit）</h4>
+      <ul>
+        <li><strong>继续养号：</strong>在 r/MachineLearning、r/LocalLLaMA、r/artificial 日常评论，目标 karma 200+</li>
+        <li><strong>准备首帖：</strong>karma 达标后在 r/LocalLLaMA 发「[Project] Mano-P: Run GUI Agent locally on Apple Silicon」，时机选在工作日美西时间上午</li>
+        <li><strong>目的：</strong>r/LocalLLaMA 是端侧 AI 核心社区，一帖可能带来数百 Star</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- HN -->
+  <div class="platform-card">
+    <div class="platform-header"><div class="platform-name">🟡 Hacker News</div><div class="tag tag-question">待突破</div></div>
+    <div class="platform-stats">
+      <div class="platform-stat"><div class="val">1</div><div class="lbl">帖子</div><div class="chg">0 points</div></div>
+    </div>
+    <div class="action-box">
+      <h4>🎯 下一步行动（HN）</h4>
+      <ul>
+        <li><strong>Show HN 策划：</strong>准备「Show HN: Mano-P – Open-source GUI Agent running fully on Apple Silicon」帖子，需要在标题体现差异化价值（on-device + open-source + Apple Silicon）</li>
+        <li><strong>时机选择：</strong>美东时间周二/周三上午 9-11 点发帖，避开重大科技新闻日</li>
+        <li><strong>前置准备：</strong>确保 README 英文版完善、Quick Start 3 分钟可跑通、Demo GIF 加载流畅</li>
+        <li><strong>目的：</strong>HN 首页一帖 = 可能 500-2000 Star 爆发，是冷启动期最高杠杆的单次动作</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 流量来源 ==================== -->
+<div class="section" id="sec-traffic">
+  <div class="section-title"><span class="emoji">🔗</span> GitHub 流量来源（完整列表，14 天）</div>
+
+  <div class="card">
+    <div class="card-title">Referrer 来源（按访问量排序）</div>
+    <p style="font-size:12px;color:#94a3b8;margin:8px 0 16px;line-height:1.6;">⚠️ 注：GitHub Referrer 统计受平台跳转机制影响，各内容平台（掘金、CSDN、开源中国、知乎等）通常通过中间页/短链跳转（如 link.csdn.net、link.zhihu.com），部分 referrer 信息会被中间页吞掉或归入其他来源。因此以下数据为 GitHub 能识别到的最低值，实际各平台引流量会高于此数字。另外，GitHub API 仅返回 Top 10 来源，以下即为完整 API 返回结果。</p>
+    <div style="margin-top:12px;">
+      <div class="bar-row"><div class="bar-label">github.com</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div><div class="bar-value">2,886（1,193 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">Google</div><div class="bar-track"><div class="bar-fill" style="width:42.8%"></div><div class="bar-value">1,288（575 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">Bing</div><div class="bar-track"><div class="bar-fill" style="width:21.6%"></div><div class="bar-value">572（302 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">t.co（Twitter/X）</div><div class="bar-track"><div class="bar-fill" style="width:2.5%"></div><div class="bar-value">71（56 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">link.zhihu.com</div><div class="bar-track"><div class="bar-fill" style="width:1.4%"></div><div class="bar-value">41（31 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">mininglamp.com</div><div class="bar-track"><div class="bar-fill" style="width:1.4%"></div><div class="bar-value">41（27 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">doubao.com（豆包AI）</div><div class="bar-track"><div class="bar-fill" style="width:1.2%"></div><div class="bar-value">36（21 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">Baidu</div><div class="bar-track"><div class="bar-fill" style="width:1.2%"></div><div class="bar-value">35（13 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">link.csdn.net</div><div class="bar-track"><div class="bar-fill" style="width:0.7%"></div><div class="bar-value">21（11 unique）</div></div></div>
+      <div class="bar-row"><div class="bar-label">chatgpt.com</div><div class="bar-track"><div class="bar-fill" style="width:0.5%"></div><div class="bar-value">15（7 unique）</div></div></div>
+    </div>
+
+    <div class="insight-box" style="margin-top:20px;">
+      <h4>🔍 流量来源分析</h4>
+      <p><strong>1. 搜索引擎占比极高：</strong>Google(1,288) + Bing(572) + Baidu(35) = 1,895 次，占总引流的 37%。说明 SEO 已见效，用户主动搜索 Mano-P/GUI Agent 找到我们。<br>
+      <strong>2. 内容平台转化有优化空间：</strong>CSDN 6,300 阅读但 GitHub 可追踪引流 21 次（0.3%），知乎 41 次效率最高。掘金/开源中国/DEV.to 因中间页跳转未进入 Top 10（实际引流高于统计值）。<br>
+      <strong>3. 新信号：</strong>doubao.com（豆包AI）36 次 + chatgpt.com 15 次——AI 助手在主动推荐我们的项目给用户！这是全新的发现渠道。<br>
+      <strong>4. Twitter/X 引流 17 次：</strong>虽然量小但 unique 占比高（82%），说明 X 上来的用户质量好。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">热门页面路径 Top 10</div>
+    <table>
+      <thead><tr><th>路径</th><th>访问量</th><th>Unique</th></tr></thead>
+      <tbody>
+        <tr><td>/Mininglamp-AI/Mano-P（主页）</td><td>3,517</td><td>2,258</td></tr>
+        <tr><td>/blob/main/README_CN.md</td><td>2,247</td><td>1,364</td></tr>
+        <tr><td>/tree/main</td><td>615</td><td>438</td></tr>
+        <tr><td>/issues</td><td>280</td><td>160</td></tr>
+        <tr><td>/tree/main/pics</td><td>256</td><td>212</td></tr>
+        <tr><td>/MININGLAMP-AI/MANO-P（大小写变体）</td><td>222</td><td>156</td></tr>
+        <tr><td>/releases</td><td>113</td><td>52</td></tr>
+        <tr><td>/blob/main/README.md（英文）</td><td>110</td><td>93</td></tr>
+        <tr><td>/issues/10（本地模型部署问题）</td><td>58</td><td>38</td></tr>
+        <tr><td>/issues/11（Windows 问题）</td><td>56</td><td>42</td></tr>
+      </tbody>
+    </table>
+    <div class="insight-box">
+      <h4>📊 页面路径洞察</h4>
+      <p><strong>中文 README 访问量是英文的 20 倍</strong>（2,247 vs 110），当前用户以中文开发者为主。Issues 页 280 次访问说明用户在积极关注社区反馈和功能进度。releases 页 113 次说明有用户在关注版本更新。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 用户反馈 ==================== -->
+<div class="section" id="sec-feedback">
+  <div class="section-title"><span class="emoji">💬</span> 用户反馈（Issue & Discussion 完整记录）</div>
+
+  <div class="card">
+    <div class="card-title">🎯 用户反馈总结</div>
+    <div class="insight-box">
+      <h4>反馈分类统计</h4>
+      <p>• Bug/性能：6 条 · 功能/平台需求：4 条 · 模型相关：4 条 · 安装摩擦：2 条 · 竞品对比：1 条 · 正面反馈：1 条 · 外部 PR：1 条</p>
+    </div>
+    <div class="insight-box">
+      <h4>五大核心发现</h4>
+      <p><strong>① 本地模型 4B 能力不足是最大痛点</strong> — #21/#15/#10 均反映本地与云端差距巨大<br>
+      <strong>② 安装链路有断点</strong> — HF gated repo 需授权(#19) + mlx 依赖版本不存在(skill#5)<br>
+      <strong>③ Windows 问题最集中</strong> — 多屏截屏错位(#16)、任务卡住(#11)、编码崩溃(skill#1-3)<br>
+      <strong>④ 有真实集成意图的高价值用户</strong> — ko1o 想集成自动测试、suyam1992 对比后选择 Mano-P<br>
+      <strong>⑤ 平台需求向移动端/Linux 扩展</strong> — Android(#18)、M2(#9)、Linux/Xvfb(Discussion)</p>
+    </div>
+    <div class="warning-box">
+      <h4>📌 当前状态</h4>
+      <ul>
+        <li>已回复：#9 #10 #11 #12 #14 #15 #18 #21（8 条）</li>
+        <li>已确认暂不回复（与产研对齐）：#13 #16 #19（3 条）— 涉及竞品对比、未支持功能等暂无明确答案</li>
+        <li>1 个外部 PR 待 Review（mano-skill #4 by zeroforest）</li>
+        <li>Discussion #4 hbysjjl Linux 评论待处理</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-title">Mano-P 仓库 Issues（4/20 — 5/8，共 13 条）</div>
+    <table>
+      <thead><tr><th>#</th><th>标题</th><th>提交人</th><th>日期</th><th>类型</th><th>详情</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/22">#22</a></td><td>install-sdk silently skips cider</td><td>heykb</td><td>05-08</td><td><span class="tag tag-bug">安装 Bug</span></td><td>install-sdk 静默跳过 cider 安装；check 误报 torch-missing</td><td><span class="tag tag-open">Open 🆕</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/21">#21</a></td><td>4B 本地模型体验极差</td><td>heykb</td><td>05-08</td><td><span class="tag tag-feedback">体验反馈</span></td><td>M4 Pro 48GB，在线模型正常但 4B 本地模型识别不准、操作走偏、简单任务跑不通</td><td><span class="tag tag-open">已回复 ✅</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/20">#20</a></td><td>Local mode config feedback</td><td>heykb</td><td>05-07</td><td><span class="tag tag-feedback">体验反馈</span></td><td>本地模式需手动配置模型路径，不直观易出错；缺少自动检测</td><td><span class="tag tag-closed">Closed</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/19">#19</a></td><td>install-model 需 HF 授权</td><td>brunchenblia</td><td>05-07</td><td><span class="tag tag-question">安装摩擦</span></td><td>401 gated repo 错误，HuggingFace 需申请授权才能下载模型</td><td><span class="tag tag-open">已确认暂不回复（产研对齐）</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/18">#18</a></td><td>支持 Android 应用么</td><td>lxg8293</td><td>05-06</td><td><span class="tag tag-question">平台需求</span></td><td>问是否支持 Android</td><td><span class="tag tag-open">已回复 ✅</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/16">#16</a></td><td>Windows 多屏幕问题</td><td>ConstantinopleMayor</td><td>05-01</td><td><span class="tag tag-bug">Bug</span></td><td>扩展模式下截屏和操作不在主屏幕，导致任务无法进行</td><td><span class="tag tag-open">已确认暂不回复（产研对齐）</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/15">#15</a></td><td>72b 模型有计划开源吗</td><td>zh4zhx</td><td>04-30</td><td><span class="tag tag-question">模型需求</span></td><td>4b 效果和云端差太多，问更大模型开源计划</td><td><span class="tag tag-open">已回复 ✅</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/14">#14</a></td><td>Mac 速度很慢</td><td>wuqiang1985</td><td>04-29</td><td><span class="tag tag-bug">性能</span></td><td>brew 安装版发微信消息约 2 分钟完成</td><td><span class="tag tag-open">已回复 ✅</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/13">#13</a></td><td>对比 Turix-CUA 呢？</td><td>SutEain</td><td>04-27</td><td><span class="tag tag-question">竞品对比</span></td><td>问和 Turix-CUA 的区别，字节好像也有一个</td><td><span class="tag tag-open">已确认暂不回复（产研对齐）</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/12">#12</a></td><td>期待开源</td><td>suyam1992</td><td>04-27</td><td><span class="tag tag-feature">正面反馈</span></td><td>「对比过多个 CUA 产品，这个确实智能化做的不错」</td><td><span class="tag tag-open">已回复 ✅</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/11">#11</a></td><td>Windows 上表现有问题</td><td>SongOnWater</td><td>04-23</td><td><span class="tag tag-bug">Bug</span></td><td>相同任务 Mac 正常 Windows 卡住</td><td><span class="tag tag-open">已回复 ✅</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/10">#10</a></td><td>本地模型怎么使用</td><td>1615385915-bit</td><td>04-23</td><td><span class="tag tag-question">使用问题</span></td><td>想本地部署做分析，硬件符合但不会部署</td><td><span class="tag tag-open">已回复 ✅</span></td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/issues/9">#9</a></td><td>M2 芯片可以用吗</td><td>jiujiu-maimai</td><td>04-20</td><td><span class="tag tag-question">兼容性</span></td><td>问 M2 支持和技术方案，后续是否出 M2 版本</td><td><span class="tag tag-open">已回复 ✅</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">mano-skill 仓库 Issues（5 条）</div>
+    <table>
+      <thead><tr><th>#</th><th>标题</th><th>提交人</th><th>日期</th><th>类型</th><th>详情</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td>#5</td><td>cider 依赖 mlx>=0.31 不存在</td><td>jinhaoliang123-maker</td><td>05-07</td><td><span class="tag tag-bug">依赖 Bug</span></td><td>mlx 最新版 0.29.3，cider 声明 >=0.31 阻塞安装</td><td><span class="tag tag-open">Open</span></td></tr>
+        <tr><td>#4 (PR)</td><td>Safe emoji printing for Windows GBK</td><td>zeroforest</td><td>05-01</td><td><span class="tag tag-pr">外部 PR 🎉</span></td><td>首个外部贡献者！修复 Windows GBK 编码崩溃</td><td><span class="tag tag-open">待 Review</span></td></tr>
+        <tr><td>#1/#2/#3</td><td>UnicodeEncodeError Windows GBK</td><td>zeroforest</td><td>05-01</td><td><span class="tag tag-bug">Bug</span></td><td>Windows 命令行打印 emoji 字符崩溃（重复提交×3）</td><td><span class="tag tag-open">Open</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Discussions（有新动态）</div>
+    <table>
+      <thead><tr><th>#</th><th>标题</th><th>日期</th><th>新动态</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/discussions/17">#17</a></td><td>Mano-P Local Model & Cider SDK Are Live</td><td>05-06</td><td>发布公告（内部），介绍本地模型+Cider+Mano-AFK</td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/discussions/4">#4</a></td><td>Windows 版本有计划么？</td><td>04-13</td><td>04-30 hbysjjl 评论：Linux Xvfb 环境缺少 pynput._xorg 模块</td></tr>
+        <tr><td><a href="https://github.com/Mininglamp-AI/Mano-P/discussions/3">#3</a></td><td>Welcome to Mano-P Discussions!</td><td>04-13</td><td>04-30 hbysjjl 同样评论 Linux/Xvfb 问题</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  </div>
+
+<!-- ==================== 本周大事记 ==================== -->
+<div class="section" id="sec-events">
+  <div class="section-title"><span class="emoji">📅</span> 本周大事记</div>
+
+  <div class="card">
+    <table>
+      <thead><tr><th>日期</th><th>事件</th><th>影响</th></tr></thead>
+      <tbody>
+        <tr><td>4/20</td><td>⭐ Star 突破 857，日增 +127</td><td>增速高峰期尾段</td></tr>
+        <tr><td>4/23</td><td>⭐ Star 突破 1,000 里程碑</td><td>冷启动期正式结束的标志</td></tr>
+        <tr><td>4/27</td><td>📈 单日流量峰值 1,128 views / 111 clones</td><td>可能与本地模型预热传播相关</td></tr>
+        <tr><td>4/29</td><td>📈 单日 clone 峰值 257 次</td><td>大量用户开始实际部署试用</td></tr>
+        <tr><td>5/1</td><td>🎉 首个外部 PR（zeroforest）</td><td>社区贡献从 0 到 1</td></tr>
+        <tr><td>5/6</td><td>🚀 本地模型 + Cider SDK + Mano-AFK 三连发</td><td>三个新仓库同日上线，产品闭环完成</td></tr>
+        <tr><td>5/6</td><td>📢 Discussion #17 发布公告</td><td>标志产品进入「本地可用」阶段</td></tr>
+        <tr><td>5/7-8</td><td>📋 本地模型相关 Issue 爆发（#19/#20/#21 + skill#5）</td><td>用户开始尝试本地部署，遇到安装摩擦和能力不足</td></tr>
+        <tr><td>5/8</td><td>⭐ Star 达到 1,610</td><td>19 天增长 88%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<!-- ==================== 周度总结 ==================== -->
+<div class="section" id="sec-summary">
+  <div class="section-title"><span class="emoji">📝</span> 周度总结</div>
+
+  <div class="card">
+    <div class="card-title">一句话总结</div>
+    <p style="font-size:16px;color:#f8fafc;line-height:1.8;">19 天 Star +88% 到 1,610，三个新仓库上线完成产品闭环，下一阶段重点是<strong style="color:#fbbf24">优化本地模型安装体验</strong>和<strong style="color:#fbbf24">提升内容平台→GitHub 转化效率</strong>。用户已经来了（892 clones），接下来要让安装流程更顺畅、让内容读者更多地转化为 Star 用户。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">核心判断</div>
+    <div class="insight-box">
+      <h4>✅ 做对了什么</h4>
+      <p>1. 多平台高频内容输出（19 天 +50 篇）覆盖面广<br>
+      2. 知乎回答式引流效率极高，验证了「回答>文章」策略<br>
+      3. 本地模型+Cider SDK 三连发引爆用户尝试热潮（5/6 流量峰值 700 views）<br>
+      4. Reddit 养号策略正确，karma 从 1 到 91</p>
+    </div>
+    <div class="warning-box">
+      <h4>⚠️ 需要改进什么</h4>
+      <ul>
+        <li><strong>Issue 回复策略需透明化：</strong>部分 Issue 经与产研确认暂不回复（涉及未确定功能/竞品对比），建议对这类 Issue 加标签说明状态（如 wontfix/later），避免外部用户误解为无人维护</li>
+        <li><strong>内容平台转化链路待优化：</strong>CSDN 阅读量表现优秀（6,300），但到 GitHub 的跳转路径还需强化（目前 21 次），文章 CTA 和链接植入是下一步重点</li>
+        <li><strong>本地模型安装流程可优化：</strong>发布后 2 天内收到 4 条安装相关反馈，后续版本可加强安装引导和依赖检查</li>
+        <li><strong>开源中国增速待提升：</strong>新文平均 45 阅读/篇，低于早期文章均值，账号权重和平台推荐流量仍在积累期</li>
+      </ul>
+    </div>
+    <div class="insight-box">
+      <h4>📊 关键数据信号</h4>
+      <p>• 搜索引擎引流 1,728 次 = 品牌搜索心智正在建立<br>
+      • doubao.com（豆包AI）首次出现 = AI 助手在主动推荐我们<br>
+      • README_CN 访问量是英文的 20 倍 = 当前用户以中文开发者为主<br>
+      • Clone 峰值 257/天 = 真正在本地跑代码的人不少<br>
+      • Star 增速已从峰值 +172/天 回落到 +20-30/天 = 需要新的爆发触发点（Show HN / r/LocalLLaMA）</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 下周重点行动（按优先级）</div>
+
+    <h3 style="color:#f87171;font-size:14px;margin:16px 0 12px;">🔴 P0 — 必须完成（直接影响用户留存和社区健康）</h3>
+    <table>
+      <thead><tr><th>行动</th><th>目的</th><th>预期效果</th></tr></thead>
+      <tbody>
+        <tr><td>对暂不回复的 Issue（#13/#16/#19）加标签或简短说明</td><td>让外部用户了解已被关注、只是暂无方案，避免误解为无人维护</td><td>提升社区活跃度感知</td></tr>
+        <tr><td>Review + 合并 zeroforest PR #4</td><td>首个外部 PR 不合并会劝退后续贡献者</td><td>激励更多 Windows 用户贡献</td></tr>
+        <tr><td>修复 cider mlx 版本依赖（skill#5）</td><td>当前本地模式完全无法安装</td><td>解除安装阻塞，让本地用户跑通</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="color:#fbbf24;font-size:14px;margin:20px 0 12px;">🟡 P1 — 提升增长引擎（各平台具体行动）</h3>
+    <table>
+      <thead><tr><th>平台</th><th>行动</th><th>目的</th><th>预期效果</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CSDN</strong></td><td>① 每篇文章首尾插入 GitHub CTA + 追踪短链<br>② 每天评论 3-5 篇同领域热帖，参与问答提升账号权重<br>③ 侧重「实测」「对比」类强标题</td><td>当前 6,300 阅读但引流 21 次（0.3%），CTA 植入后有较大提升空间</td><td>转化率提升至 2-3%（≈120-190 次/两周）；账号权重提升获得更多推荐</td></tr>
+        <tr><td><strong>掘金</strong></td><td>① 发 2 篇「开发者实测日记」风格文章（非官方调性）<br>② 每天在沸点/评论区主动互动 5-10 条<br>③ 文章末尾加投票式提问引导互动</td><td>当前 0 评论 2 赞，纯发文不互动账号权重低无法获得推荐</td><td>互动率从 0.14% 提升至 1%+，获得平台推荐流量</td></tr>
+        <tr><td><strong>知乎</strong></td><td>① 回答 5+ 个 GUI Agent/AI 自动化相关问题<br>② 优化回答结构：hook→原理→植入→链接<br>③ 关注并互动同领域答主</td><td>知乎→GitHub 转化率最高（44次），是 ROI 最高的引流渠道</td><td>引流翻倍至 80-100 次</td></tr>
+        <tr><td><strong>开源中国</strong></td><td>① 提升发文频率和互动（当前新文平均仅 45 阅读）<br>② 完善软件收录页信息<br>③ 在动弹板块日常发言提升活跃度</td><td>新文阅读偏低（平均 45），需提升账号权重和平台推荐</td><td>提升至每篇 100+ 阅读，总量目标 2,000+</td></tr>
+        <tr><td><strong>DEV.to</strong></td><td>① 发 1 篇 Tutorial 教程（How to run GUI Agent locally）<br>② 每周评论 10+ 篇同领域文章提升 followers<br>③ 优化 Tag：#ai #machinelearning #opensource</td><td>积累海外 SEO 长尾流量 + 账号权重</td><td>每篇持续带来 20-50 views/月</td></tr>
+        <tr><td><strong>Reddit</strong></td><td>继续养号（目标 karma 200+），在 r/MachineLearning、r/LocalLLaMA 日常评论</td><td>为首帖做准备</td><td>2 周内具备发帖资格</td></tr>
+        <tr><td><strong>HN</strong></td><td>准备 Show HN 帖子内容 + 优化 README 英文版 + Demo GIF</td><td>HN 首页是冷启动期最大单次爆发点</td><td>一帖可能 500-2000 Star</td></tr>
+        <tr><td><strong>Cider 仓库</strong></td><td>独立推广：在 MLX 相关社区/文章中提及</td><td>266 Star 新仓库有独立传播价值</td><td>Apple MLX 社区新入口</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="color:#4ade80;font-size:14px;margin:20px 0 12px;">🟢 P2 — 中期战略</h3>
+    <p style="font-size:13px;color:#94a3b8;line-height:1.8;">Star 增速已从峰值 +172/天 回落到 +20-30/天，属于自然衰减。下一个爆发点需要靠 <strong style="color:#f8fafc;">Show HN</strong> 或 <strong style="color:#f8fafc;">r/LocalLLaMA 首帖</strong>触发。在此之前，核心策略是：把现有 1,610 个 Stargazer 的体验做好，让他们成为口碑传播者。修复安装链路 + 透明化 Issue 管理 > 拉新。</p>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function showSection(name) {
+  // Hide all sections
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  // Remove active from nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  // Show target
+  document.getElementById('sec-' + name).classList.add('active');
+  // Set nav active
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>

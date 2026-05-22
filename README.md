@@ -932,6 +932,51 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 </details>
 
+### 6. Mano-P Local vs Cloud Task Execution
+
+<details>
+<summary>📊 Expand Evaluation Data</summary>
+
+Comparison of Mano-P 1.0-4B on-device inference vs Claude Sonnet 4.5 cloud inference, evaluated on 100 real-machine macOS GUI tasks (MacBook Pro · Apple M5 · 16GB):
+
+**Overall Metrics**
+
+| Metric            | Cloud | Local (Mano-P 4B) |
+| ----------------- | :---: | :---------------: |
+| Pass rate         | 84.0% |       47.0%       |
+| Avg steps / task  | 10.3  |        7.5        |
+| Avg time per step | 9.3s  |       8.0s        |
+| Peak memory       |   —   |      ~6.4 GB      |
+
+**Difficulty Tiers**
+
+| Tier | Tasks | Description                                                                                           |
+| ---- | :---: | ----------------------------------------------------------------------------------------------------- |
+| A    |  25   | Single-page interactions: search, click, form fill                                                    |
+| B    |  45   | Higher complexity: multi-step operations, document creation, settings navigation, login-required apps |
+| C    |  30   | Long chains, cross-app, no open hint, fuzzy descriptions                                              |
+
+**Why Local Matters**
+
+- ✅ **Fewer steps**: on the 41 tasks both sides passed, Local averages 4.5 steps vs Cloud's 7.3 — acts directly without intermediate verification screenshots
+- ✅ **Faster per step**: 8.0s vs 9.3s
+- ✅ **Fully local**: zero outbound traffic for screenshots or task descriptions, no network dependency
+- ✅ **Lightweight deployment**: ~6.4 GB memory footprint, runs on a MacBook
+
+**Current Gap**
+
+The 4B on-device model reaches 47% vs the cloud large model's 84%. The gap concentrates in fuzzy descriptions, cross-app workflows, and deep office-suite operations — these are the explicit directions for the next iteration. With shell tools enabled in mano-cua v1.1.0-beta, cloud mode can use commands like `osascript` / `sips` / `defaults write` to handle tasks that pure GUI struggles with, bringing the pass rate to **90/100**.
+
+**Test Configuration**
+
+- Hardware: MacBook Pro · Apple M5 · 16GB RAM
+- Cloud model: Claude Sonnet 4.5 (via `mano.mininglamp.com`)
+- Local model: Mano-P 1.0-4B (W8A16, MLX)
+- Task set: 100 tasks covering browser/web, app operations, long chains, cross-app, fuzzy descriptions
+- mano-cua: v1.0.22
+
+</details>
+
 ---
 
 ## 🔧 Skills

@@ -932,48 +932,81 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
 
 </details>
 
-### 6. Mano-P Local vs Cloud Task Execution
+### 6. Mano-P Local · Cloud · Qwen3-VL Task Execution
 
 <details>
 <summary>📊 Expand Evaluation Data</summary>
 
-Comparison of Mano-P 1.0-4B on-device inference vs Claude Sonnet 4.5 cloud inference, evaluated on 100 real-machine macOS GUI tasks (MacBook Pro · Apple M5 · 16GB):
+Comparison of four inference configurations on 100 real-machine macOS GUI tasks (MacBook Pro · Apple M5 · 16GB):
 
 **Overall Metrics**
 
-| Metric            | Cloud | Local (Mano-P 4B) |
-| ----------------- | :---: | :---------------: |
-| Pass rate         | 84.0% |       47.0%       |
-| Avg steps / task  | 10.3  |        7.5        |
-| Avg time per step | 9.3s  |       8.0s        |
-| Peak memory       |   —   |      ~6.4 GB      |
+| Metric            | Cloud | Cloud+Bash | Local (Mano-P 4B) | Qwen3-VL-Plus |
+| ----------------- | :---: | :--------: | :---------------: | :-----------: |
+| Pass rate         | 83.0% |   90.0%    |       47.0%       |     39.0%     |
+| Avg steps / task  | 10.3  |     —      |        7.5        |     11.2      |
+| Avg time per step | 9.3s  |     —      |       8.0s        |     10.2s     |
 
 **Difficulty Tiers**
 
-| Tier | Tasks | Description                                                                                           |
-| ---- | :---: | ----------------------------------------------------------------------------------------------------- |
-| A    |  25   | Single-page interactions: search, click, form fill                                                    |
-| B    |  45   | Higher complexity: multi-step operations, document creation, settings navigation, login-required apps |
-| C    |  30   | Long chains, cross-app, no open hint, fuzzy descriptions                                              |
+| Tier | Tasks |    Cloud    |    Local    | Qwen3-VL-Plus |
+| ---- | :---: | :---------: | :---------: | :-----------: |
+| A    |  25   | 23/25 (92%) | 21/25 (84%) |  18/25 (72%)  |
+| B    |  45   | 37/45 (82%) | 18/45 (40%) |  14/45 (31%)  |
+| C    |  30   | 23/30 (77%) | 7/30 (23%)  |  7/30 (23%)   |
+
+**Per Category**
+
+| Category                      |  Cloud   |  Local   | Qwen3-VL-Plus |
+| ----------------------------- | :------: | :------: | :-----------: |
+| Browser / Web (31)            | 28 (90%) | 23 (74%) |   18 (58%)    |
+| Fuzzy descriptions (10)       | 8 (80%)  | 3 (30%)  |    3 (30%)    |
+| File management (7)           | 5 (71%)  | 3 (43%)  |    4 (57%)    |
+| WeChat (6)                    | 5 (83%)  | 2 (33%)  |    2 (33%)    |
+| WeCom / Feishu / DingTalk (6) | 6 (100%) | 2 (33%)  |    3 (50%)    |
+| System settings (6)           | 3 (50%)  | 3 (50%)  |    3 (50%)    |
+| WPS / Office (5)              | 5 (100%) |  0 (0%)  |    0 (0%)     |
+| No open hint (5)              | 4 (80%)  | 1 (20%)  |    2 (40%)    |
+| Notes / Reminders (4)         | 4 (100%) | 2 (50%)  |    0 (0%)     |
+| System utilities (3)          | 3 (100%) | 3 (100%) |    1 (33%)    |
+| Long chains (10)              | 8 (80%)  | 2 (20%)  |    2 (20%)    |
+| Cross-app (5)                 | 3 (60%)  |  0 (0%)  |    0 (0%)     |
+
+**Cloud + Bash Tool**
+
+With shell tools enabled in mano-cua v1.1.0-beta, cloud mode can use system commands to handle tasks that pure GUI struggles with:
+
+| ID  | Task                    | GUI Only | +Bash | Method                      |
+| --- | ----------------------- | :------: | :---: | --------------------------- |
+| 55  | Finder: tag red label   |   Fail   | Pass  | GUI (right-click + tag)     |
+| 57  | Volume to 50%           |   Fail   | Pass  | `osascript 'set volume'`    |
+| 58  | Max mouse pointer size  |   Fail   | Pass  | `defaults write`            |
+| 82  | Calculator → TextEdit   |   Fail   | Pass  | GUI (Calculator + TextEdit) |
+| 86  | Translate & save to txt |   Fail   | Pass  | `echo` to file              |
+| 99  | Rotate image            |   Fail   | Pass  | `sips -r 90`                |
+
+Cloud+Bash pass rate: **90/100 = 90%** (+7; 2 of those were false negatives caused by a system proxy misconfiguration in the previous run).
 
 **Why Local Matters**
 
-- ✅ **Fewer steps**: on the 41 tasks both sides passed, Local averages 4.5 steps vs Cloud's 7.3 — acts directly without intermediate verification screenshots
-- ✅ **Faster per step**: 8.0s vs 9.3s
+- ✅ **Fewer steps**: Local averages 7.5 steps vs Cloud 10.3 vs Qwen 11.2 — GUI-specialized fine-tuning makes actions more direct
+- ✅ **Faster per step**: 8.0s vs Cloud 9.3s vs Qwen 10.2s
 - ✅ **Fully local**: zero outbound traffic for screenshots or task descriptions, no network dependency
 - ✅ **Lightweight deployment**: ~6.4 GB memory footprint, runs on a MacBook
+- ✅ **Small model beats large model**: Mano-P 4B (47%) outperforms the cloud-based general-purpose VL model Qwen3-VL-Plus (39%) as a fully local 4B model, demonstrating the value of GUI-specialized fine-tuning
 
 **Current Gap**
 
-The 4B on-device model reaches 47% vs the cloud large model's 84%. The gap concentrates in fuzzy descriptions, cross-app workflows, and deep office-suite operations — these are the explicit directions for the next iteration. With shell tools enabled in mano-cua v1.1.0-beta, cloud mode can use commands like `osascript` / `sips` / `defaults write` to handle tasks that pure GUI struggles with, bringing the pass rate to **90/100**.
+The 4B on-device model reaches 47% vs Cloud's 83%. The gap concentrates in fuzzy descriptions, cross-app workflows, and deep office-suite operations — these are the explicit directions for the next iteration. Qwen3-VL-Plus, as a cloud-based general-purpose VL model, only reaches 39%, primarily limited by Chinese input focus issues, poor adaptation to non-browser apps, and step-limit truncation — showing that general VL capability does not equal GUI Agent capability. Cloud+Bash mode pushes the pass rate to **90%** via `osascript` / `sips` / `defaults write`, demonstrating the ceiling of a hybrid GUI + Shell strategy.
 
 **Test Configuration**
 
 - Hardware: MacBook Pro · Apple M5 · 16GB RAM
 - Cloud model: Claude Sonnet 4.5 (via `mano.mininglamp.com`)
 - Local model: Mano-P 1.0-4B (W8A16, MLX)
+- Qwen model: Qwen3-VL-Plus (via `llm-gateway.mlamp.cn`)
 - Task set: 100 tasks covering browser/web, app operations, long chains, cross-app, fuzzy descriptions
-- mano-cua: v1.0.22
+- mano-cua: v1.0.22 (Cloud+Bash uses v1.1.0-beta)
 
 </details>
 

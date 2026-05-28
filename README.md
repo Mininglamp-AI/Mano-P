@@ -14,6 +14,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/Mininglamp-AI/Mano-P?style=social)](https://github.com/Mininglamp-AI/Mano-P)
 [![Paper](https://img.shields.io/badge/arXiv-Technical%20Report-red?logo=arxiv)](https://arxiv.org/abs/2509.17336)
+[![HuggingFace](https://img.shields.io/badge/🤗-HuggingFace-yellow)](https://huggingface.co/Mininglamp-2718/Mano-P)
+[![ModelScope](https://img.shields.io/badge/🪄-ModelScope-purple)](https://modelscope.cn/models/Mininglamp/Mano-P)
 
 <a href="README_CN.md">中文</a> | English
 

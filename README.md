@@ -1,7 +1,7 @@
 <div align="center">
     <h1>
       <img src="./pics/logo.png" alt="Mano-P Logo" height="60" style="vertical-align: -15px;">
-      Mano-P 1.0
+      Mano-P 1.1
     </h1>
     <p><strong>GUI-Aware Agent Model for Edge Devices</strong></p>
     <p><strong>Private AI</strong></p>
@@ -14,8 +14,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/Mininglamp-AI/Mano-P?style=social)](https://github.com/Mininglamp-AI/Mano-P)
 [![Paper](https://img.shields.io/badge/arXiv-Technical%20Report-red?logo=arxiv)](https://arxiv.org/abs/2509.17336)
-[![HuggingFace](https://img.shields.io/badge/🤗-HuggingFace-yellow)](https://huggingface.co/Mininglamp-2718/Mano-P)
-[![ModelScope](https://img.shields.io/badge/🪄-ModelScope-purple)](https://modelscope.cn/models/Mininglamp/Mano-P)
+[![HuggingFace](https://img.shields.io/badge/🤗-HuggingFace-yellow)](https://huggingface.co/Mininglamp-2718/Mano-CUA-4B-Thinking-1.1)
+[![ModelScope CN](https://img.shields.io/badge/🪄-ModelScope%20CN-purple)](https://www.modelscope.cn/models/Mininglamp2718/Mano-CUA-4B-Thinking-1.1)
+[![ModelScope AI](https://img.shields.io/badge/🪄-ModelScope%20AI-purple)](https://www.modelscope.ai/models/Mininglamp2718/Mano-CUA-4B-Thinking-1.1)
 
 <a href="README_CN.md">中文</a> | English
 
@@ -59,10 +60,10 @@ Mano-P builds upon the complete technical framework of the Mano project (see [Ma
 
 ## 🎯 Key Highlights
 
-- **#1 on OSWorld Benchmark**: Mano-P 1.0-72B achieves **58.2% success rate on OSWorld**, ranking first among all specialized GUI agent models, outperforming the second-place opencua-72b (45.0%) by 13.2 percentage points
-- **Leading on WebRetriever Protocol I**: Mano-P 1.0 scores **41.7 NavEval**, surpassing Gemini 2.5 Pro Computer Use (40.9) and Claude 4.5 Computer Use (31.3)
+- **#1 on OSWorld Benchmark**: Mano-CUA 1.1 achieves **58.2% success rate on OSWorld**, ranking first among all specialized GUI agent models, outperforming the second-place opencua-72b (45.0%) by 13.2 percentage points
+- **Leading on WebRetriever Protocol I**: Mano-CUA 1.1 scores **41.7 NavEval**, surpassing Gemini 2.5 Pro Computer Use (40.9) and Claude 4.5 Computer Use (31.3)
 - **Fully Local Execution**: Runs inference locally on **Apple M4 chip with 32GB RAM** (Mac mini or MacBook). No cloud API calls required. All screenshots and task data stay on-device
-- **High-Performance Inference**: Mano-P 1.0-4B achieves **~80 tokens/s decode** on Apple M5 Pro; with Cider's W8A8 activation quantization, prefill speeds up by **~12.7%** over the W8A16 baseline
+- **High-Performance Inference**: Mano-CUA-4B achieves **~80 tokens/s decode** on Apple M5 Pro; with Cider's W8A8 activation quantization, prefill speeds up by **~12.7%** over the W8A16 baseline
 - **Autonomous Long-Task Execution**: Supports **complex business processes** with end-to-end automation without internet connectivity
 - **Edge-Native INT8 Acceleration**: Companion [Cider](#-inference-sdk) SDK adds the W8A8 / W4A8 activation-quantization primitives MLX lacks natively, delivering **1.4x–2.2x prefill speedup** over MLX W4A16 on Apple M5 Pro — works with any MLX model, not just Mano-P
 - **Autonomous Software Construction**: [Mano-AFK](#-applications) drives a full PRD → code → deploy → test → fix loop using Mano-P as its local vision model for real-browser E2E testing — from a single natural-language prompt to a deployed, tested application, no human in the loop
@@ -481,7 +482,7 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
   </tbody>
   <tbody>
     <tr>
-      <td colspan="13" align="center"><strong>Mano-P 1.0</strong></td>
+      <td colspan="13" align="center"><strong>Mano-CUA 1.1</strong></td>
     </tr>
     <tr>
       <td rowspan="2">Stage I</td>
@@ -641,7 +642,7 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
       <td style="text-align: center;"><strong>0.913</strong></td>
     </tr>
     <tr>
-      <td style="text-align: left;"><strong>Mano-P 1.0</strong></td>
+      <td style="text-align: left;"><strong>Mano-CUA 1.1</strong></td>
       <td style="text-align: center;">0.648</td>
       <td style="text-align: center;"><strong>0.770</strong></td>
       <td style="text-align: center;"><strong>0.698</strong></td>
@@ -700,7 +701,7 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
       <td style="text-align: center;"><strong>0.868</strong></td>
     </tr>
     <tr>
-      <td style="text-align: left;"><strong>Mano-P 1.0</strong></td>
+      <td style="text-align: left;"><strong>Mano-CUA 1.1</strong></td>
       <td style="text-align: center;"><strong>0.615</strong></td>
       <td style="text-align: center;"><strong>0.769</strong></td>
       <td style="text-align: center;"><strong>0.695</strong></td>
@@ -764,7 +765,7 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
       <td style="text-align: center;"><strong>0.940</strong></td>
     </tr>
     <tr>
-      <td style="text-align: left;"><strong>Mano-P 1.0</strong></td>
+      <td style="text-align: left;"><strong>Mano-CUA 1.1</strong></td>
       <td style="text-align: center;"><strong>0.642</strong></td>
       <td style="text-align: center;"><strong>0.481</strong></td>
       <td style="text-align: center;">2.99</td>
@@ -798,7 +799,7 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
       <td style="text-align: center;">35.5</td>
     </tr>
     <tr>
-      <td style="text-align: left;"><strong>Mano-P 1.0</strong></td>
+      <td style="text-align: left;"><strong>Mano-CUA 1.1</strong></td>
       <td style="text-align: center;"><strong>20.2</strong></td>
       <td style="text-align: center;"><strong>46.5</strong></td>
       <td style="text-align: center;"><strong>18.7</strong></td>
@@ -882,13 +883,13 @@ _Avg. Tokens/img_ represents the average visual token retention rate per image; 
       <td style="text-align: center;">0.303</td>
     </tr>
     <tr>
-      <td style="text-align: left;"><strong>Mano-P 1.0</strong></td>
+      <td style="text-align: left;"><strong>Mano-CUA 1.1</strong></td>
       <td style="text-align: center;">25.09%</td>
       <td style="text-align: center;">20.04</td>
       <td style="text-align: center;">0.370</td>
     </tr>
     <tr>
-      <td style="text-align: left;"><strong>Mano-P 1.0</strong></td>
+      <td style="text-align: left;"><strong>Mano-CUA 1.1</strong></td>
       <td style="text-align: center;"><strong>12.57%</strong></td>
       <td style="text-align: center;"><strong>22.62</strong></td>
       <td style="text-align: center;">0.336</td>
@@ -943,40 +944,40 @@ Comparison of four inference configurations on 100 real-machine macOS GUI tasks 
 
 **Overall Metrics**
 
-| Metric            | Cloud | Cloud+Bash | Local (Mano-P 4B) | Qwen3-VL-Plus |
-| ----------------- | :---: | :--------: | :---------------: | :-----------: |
-| Pass rate         | 83.0% |   90.0%    |       56.0%       |     39.0%     |
-| Avg steps / task  | 10.3  |     —      |       11.5        |     11.2      |
-| Avg time per step | 9.3s  |     —      |       7.9s        |     10.2s     |
+| Metric            | Mano-CUA(Cloud) | Mano-CUA(Cloud)+Bash | Mano-CUA-4B(Local) | Qwen3-VL-Plus |
+| ----------------- | :-------------: | :------------------: | :----------------: | :-----------: |
+| Pass rate         |      83.0%      |        90.0%         |       56.0%        |     39.0%     |
+| Avg steps / task  |      10.3       |          —           |        11.5        |     11.2      |
+| Avg time per step |      9.3s       |          —           |        7.9s        |     10.2s     |
 
 **Difficulty Tiers**
 
-| Tier | Tasks |    Cloud    |    Local    | Qwen3-VL-Plus |
-| ---- | :---: | :---------: | :---------: | :-----------: |
-| A    |  25   | 23/25 (92%) | 22/25 (88%) |  18/25 (72%)  |
-| B    |  45   | 37/45 (82%) | 24/45 (53%) |  14/45 (31%)  |
-| C    |  30   | 23/30 (77%) | 10/30 (33%) |  7/30 (23%)   |
+| Tier | Tasks | Mano-CUA(Cloud) | Mano-CUA-4B(Local) | Qwen3-VL-Plus |
+| ---- | :---: | :-------------: | :----------------: | :-----------: |
+| A    |  25   |   23/25 (92%)   |    22/25 (88%)     |  18/25 (72%)  |
+| B    |  45   |   37/45 (82%)   |    24/45 (53%)     |  14/45 (31%)  |
+| C    |  30   |   23/30 (77%)   |    10/30 (33%)     |  7/30 (23%)   |
 
 **Per Category**
 
-| Category                      |  Cloud   |  Local   | Qwen3-VL-Plus |
-| ----------------------------- | :------: | :------: | :-----------: |
-| Browser / Web (31)            | 28 (90%) | 21 (68%) |   18 (58%)    |
-| Fuzzy descriptions (10)       | 8 (80%)  | 3 (30%)  |    3 (30%)    |
-| File management (7)           | 5 (71%)  | 3 (43%)  |    4 (57%)    |
-| WeChat (6)                    | 5 (83%)  | 4 (67%)  |    2 (33%)    |
-| WeCom / Feishu / DingTalk (6) | 6 (100%) | 5 (83%)  |    3 (50%)    |
-| System settings (6)           | 3 (50%)  | 5 (83%)  |    3 (50%)    |
-| WPS / Office (5)              | 5 (100%) | 2 (40%)  |    0 (0%)     |
-| No open hint (5)              | 4 (80%)  | 3 (60%)  |    2 (40%)    |
-| Notes / Reminders (4)         | 4 (100%) | 2 (50%)  |    0 (0%)     |
-| System utilities (3)          | 3 (100%) | 3 (100%) |    1 (33%)    |
-| Long chains (10)              | 8 (80%)  | 3 (30%)  |    2 (20%)    |
-| Cross-app (5)                 | 3 (60%)  | 1 (20%)  |    0 (0%)     |
+| Category                      | Mano-CUA(Cloud) | Mano-CUA-4B(Local) | Qwen3-VL-Plus |
+| ----------------------------- | :-------------: | :----------------: | :-----------: |
+| Browser / Web (31)            |    28 (90%)     |      21 (68%)      |   18 (58%)    |
+| Fuzzy descriptions (10)       |     8 (80%)     |      3 (30%)       |    3 (30%)    |
+| File management (7)           |     5 (71%)     |      3 (43%)       |    4 (57%)    |
+| WeChat (6)                    |     5 (83%)     |      4 (67%)       |    2 (33%)    |
+| WeCom / Feishu / DingTalk (6) |    6 (100%)     |      5 (83%)       |    3 (50%)    |
+| System settings (6)           |     3 (50%)     |      5 (83%)       |    3 (50%)    |
+| WPS / Office (5)              |    5 (100%)     |      2 (40%)       |    0 (0%)     |
+| No open hint (5)              |     4 (80%)     |      3 (60%)       |    2 (40%)    |
+| Notes / Reminders (4)         |    4 (100%)     |      2 (50%)       |    0 (0%)     |
+| System utilities (3)          |    3 (100%)     |      3 (100%)      |    1 (33%)    |
+| Long chains (10)              |     8 (80%)     |      3 (30%)       |    2 (20%)    |
+| Cross-app (5)                 |     3 (60%)     |      1 (20%)       |    0 (0%)     |
 
-**Cloud + Bash Tool**
+**Mano-CUA 1.1 + Bash Tool**
 
-With shell tools enabled in mano-cua v1.1.0-beta, cloud mode can use system commands to handle tasks that pure GUI struggles with:
+With shell tools enabled in Mano-CUA 1.1, cloud mode can use system commands to handle tasks that pure GUI struggles with:
 
 | ID  | Task                    | GUI Only | +Bash | Method                      |
 | --- | ----------------------- | :------: | :---: | --------------------------- |
@@ -987,27 +988,26 @@ With shell tools enabled in mano-cua v1.1.0-beta, cloud mode can use system comm
 | 86  | Translate & save to txt |   Fail   | Pass  | `echo` to file              |
 | 99  | Rotate image            |   Fail   | Pass  | `sips -r 90`                |
 
-Cloud+Bash pass rate: **90/100 = 90%** (+7; 2 of those were false negatives caused by a system proxy misconfiguration in the previous run).
+Mano-CUA 1.1+Bash pass rate: **90/100 = 90%** (+7; 2 of those were false negatives caused by a system proxy misconfiguration in the previous run).
 
 **Why Local Matters**
 
-- ✅ **Faster per step**: 7.9s vs Cloud 9.3s vs Qwen 10.2s
+- ✅ **Faster per step**: 7.9s vs Mano-CUA 1.1 9.3s vs Qwen 10.2s
 - ✅ **Fully local**: zero outbound traffic for screenshots or task descriptions, no network dependency
 - ✅ **Lightweight deployment**: ~6.4 GB memory footprint, runs on a MacBook
-- ✅ **Small model beats large model**: Mano-P 4B (56%) significantly outperforms the cloud-based general-purpose VL model Qwen3-VL-Plus (39%) as a fully local 4B model, demonstrating the value of GUI-specialized fine-tuning
+- ✅ **Small model beats large model**: Mano-CUA-4B (56%) significantly outperforms the cloud-based general-purpose VL model Qwen3-VL-Plus (39%) as a fully local 4B model, demonstrating the value of GUI-specialized fine-tuning
 
 **Current Gap**
 
-The 4B on-device model reaches 56% vs Cloud's 83%. The gap concentrates in fuzzy descriptions, cross-app workflows, and deep office-suite operations — these are the explicit directions for the next iteration. Qwen3-VL-Plus, as a cloud-based general-purpose VL model, only reaches 39%, primarily limited by Chinese input focus issues, poor adaptation to non-browser apps, and step-limit truncation — showing that general VL capability does not equal GUI Agent capability. Cloud+Bash mode pushes the pass rate to **90%** via `osascript` / `sips` / `defaults write`, demonstrating the ceiling of a hybrid GUI + Shell strategy.
+The 4B on-device model reaches 56% vs Mano-CUA 1.1's 83%. The gap concentrates in fuzzy descriptions, cross-app workflows, and deep office-suite operations — these are the explicit directions for the next iteration. Qwen3-VL-Plus, as a cloud-based general-purpose VL model, only reaches 39%, primarily limited by Chinese input focus issues, poor adaptation to non-browser apps, and step-limit truncation — showing that general VL capability does not equal GUI Agent capability. Mano-CUA 1.1+Bash mode pushes the pass rate to **90%** via `osascript` / `sips` / `defaults write`, demonstrating the ceiling of a hybrid GUI + Shell strategy.
 
 **Test Configuration**
 
 - Hardware: MacBook Pro · Apple M5 · 16GB RAM
 - Cloud model: Claude Sonnet 4.5 (via `mano.mininglamp.com`)
-- Local model: Mano-P 1.0-4B (W8A16, MLX)
+- Local model: Mano-CUA-4B (W8A16, MLX)
 - Qwen model: Qwen3-VL-Plus (via `llm-gateway.mlamp.cn`)
 - Task set: 100 tasks covering browser/web, app operations, long chains, cross-app, fuzzy descriptions
-- mano-cua: v1.0.22 (Cloud+Bash uses v1.1.0-beta)
 
 </details>
 
@@ -1229,7 +1229,7 @@ We are continuously improving cross-platform compatibility. Feedback is welcome.
 
 ### Performance Evaluation
 
-The table below presents actual inference benchmark results of Mano-P 1.0-4B running on Apple M5 Pro with the Cider inference SDK. Using W8A16 (MLX's native weight-only quantization path) as the baseline — the same reference convention adopted in [Cider's quantization benchmark](#-inference-sdk) — enabling Cider's W8A8 activation quantization reduces prefill time from 2.839s to 2.519s on the same input, a **~12.7% prefill speedup**. For more data, refer to the [⚡ Inference SDK](#-inference-sdk) section below.
+The table below presents actual inference benchmark results of Mano-CUA-4B running on Apple M5 Pro with the Cider inference SDK. Using W8A16 (MLX's native weight-only quantization path) as the baseline — the same reference convention adopted in [Cider's quantization benchmark](#-inference-sdk) — enabling Cider's W8A8 activation quantization reduces prefill time from 2.839s to 2.519s on the same input, a **~12.7% prefill speedup**. For more data, refer to the [⚡ Inference SDK](#-inference-sdk) section below.
 
 <table>
   <thead>
@@ -1246,7 +1246,7 @@ The table below presents actual inference benchmark results of Mano-P 1.0-4B run
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2"><strong>Mano-P 1.0-4B</strong></td>
+      <td rowspan="2"><strong>Mano-CUA-4B</strong></td>
       <td rowspan="2">Apple M5 Pro<br/>64GB RAM</td>
       <td rowspan="2"><strong>307 GB/s</strong></td>
       <td rowspan="2">Cider</td>
@@ -1263,7 +1263,13 @@ The table below presents actual inference benchmark results of Mano-P 1.0-4B run
   </tbody>
 </table>
 
-**Model download:** 🤗 [Hugging Face](https://huggingface.co/Mininglamp-2718/Mano-P) · 🪄 [ModelScope](https://modelscope.cn/models/Mininglamp/Mano-P)
+**Model Download:**
+
+| Platform         | Base Model                                                                                           | MLX 8-bit Quantized                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 🤗 Hugging Face  | [Mano-CUA-4B-Thinking-1.1](https://huggingface.co/Mininglamp-2718/Mano-CUA-4B-Thinking-1.1)          | [Mano-CUA-4B-Thinking-1.1-MLX-8bit](https://huggingface.co/Mininglamp-2718/Mano-CUA-4B-Thinking-1.1-MLX-8bit)          |
+| 🪄 ModelScope CN | [Mano-CUA-4B-Thinking-1.1](https://www.modelscope.cn/models/Mininglamp2718/Mano-CUA-4B-Thinking-1.1) | [Mano-CUA-4B-Thinking-1.1-MLX-8bit](https://www.modelscope.cn/models/Mininglamp2718/Mano-CUA-4B-Thinking-1.1-MLX-8bit) |
+| 🪄 ModelScope AI | [Mano-CUA-4B-Thinking-1.1](https://www.modelscope.ai/models/Mininglamp2718/Mano-CUA-4B-Thinking-1.1) | [Mano-CUA-4B-Thinking-1.1-MLX-8bit](https://www.modelscope.ai/models/Mininglamp2718/Mano-CUA-4B-Thinking-1.1-MLX-8bit) |
 
 ---
 
@@ -1509,7 +1515,7 @@ Mano-Action is a bidirectional self-reinforcement training framework specificall
 - GitHub: [github.com/Mininglamp-AI/mano-afk](https://github.com/Mininglamp-AI/mano-afk)
 - ClawHub: [clawhub.ai/hanningwang/mano-afk](https://clawhub.ai/hanningwang/mano-afk)
 
-**CUA Benchmark — Mano-P 4B on MacBook Pro M5 (16GB)**
+**CUA Benchmark — Mano-CUA-4B on MacBook Pro M5 (16GB)**
 
 The suite evaluates 100 tasks across 5 web applications that were themselves built autonomously by Mano-AFK: **TripSplit** (expense splitting), **md-wechat** (Markdown → WeChat formatter), **OMS** (order management), **Family Ledger** (household bookkeeping), and **Life Dashboard** (personal widgets). Each app ships in two variants — a **golden** build (bug-free, expected verdict PASS, 76 tasks) and a **buggy** build with specific UI/logic defects injected (expected verdict FAIL, 24 tasks). Accuracy is defined as the share of tasks where the judge's verdict matches the expected label; each project contributes 15–16 golden tasks and 4–5 bug-injection tasks.
 
@@ -1584,8 +1590,8 @@ Mano-P is an **open-source GUI-VLA (Vision-Language-Action) agent** designed to 
 
 **Performance Comparison:**
 
-- OSWorld (all models): Claude Sonnet 4.6 **72.1%** vs Mano-P 1.0-72B **58.2%**
-- WebRetriever Protocol I: Mano-P **41.7 NavEval** vs Claude 4.5 Computer Use **31.3**
+- OSWorld (all models): Claude Sonnet 4.6 **72.1%** vs Mano-CUA 1.1 **58.2%**
+- WebRetriever Protocol I: Mano-CUA 1.1 **41.7 NavEval** vs Claude 4.5 Computer Use **31.3**
 
 **Key Difference:**
 

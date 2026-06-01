@@ -944,36 +944,36 @@ Comparison of four inference configurations on 100 real-machine macOS GUI tasks 
 
 **Overall Metrics**
 
-| Metric            | Mano-CUA(Cloud) | Mano-CUA(Cloud)+Bash | Mano-CUA-4B(Local) | Qwen3-VL-Plus |
-| ----------------- | :-------------: | :------------------: | :----------------: | :-----------: |
-| Pass rate         |      83.0%      |        90.0%         |       56.0%        |     39.0%     |
-| Avg steps / task  |      10.3       |          —           |        11.5        |     11.2      |
-| Avg time per step |      9.3s       |          —           |        7.9s        |     10.2s     |
+| Metric            | Mano-CUA(Cloud) | Mano-CUA-Instruct-4B | Mano-CUA-Thinking-4B | Qwen3-VL-Plus |
+| ----------------- | :-------------: | :------------------: | :------------------: | :-----------: |
+| Pass rate         |      83.0%      |        47.0%         |        56.0%         |     39.0%     |
+| Avg steps / task  |      10.3       |         7.5          |         11.5         |     11.2      |
+| Avg time per step |      9.3s       |         8.0s         |         7.9s         |     10.2s     |
 
 **Difficulty Tiers**
 
-| Tier | Tasks | Mano-CUA(Cloud) | Mano-CUA-4B(Local) | Qwen3-VL-Plus |
-| ---- | :---: | :-------------: | :----------------: | :-----------: |
-| A    |  25   |   23/25 (92%)   |    22/25 (88%)     |  18/25 (72%)  |
-| B    |  45   |   37/45 (82%)   |    24/45 (53%)     |  14/45 (31%)  |
-| C    |  30   |   23/30 (77%)   |    10/30 (33%)     |  7/30 (23%)   |
+| Tier | Tasks | Mano-CUA(Cloud) | Mano-CUA-Instruct-4B | Mano-CUA-Thinking-4B | Qwen3-VL-Plus |
+| ---- | :---: | :-------------: | :------------------: | :------------------: | :-----------: |
+| A    |  25   |   23/25 (92%)   |     21/25 (84%)      |     22/25 (88%)      |  18/25 (72%)  |
+| B    |  45   |   37/45 (82%)   |     18/45 (40%)      |     24/45 (53%)      |  14/45 (31%)  |
+| C    |  30   |   23/30 (77%)   |      7/30 (23%)      |     10/30 (33%)      |  7/30 (23%)   |
 
 **Per Category**
 
-| Category                      | Mano-CUA(Cloud) | Mano-CUA-4B(Local) | Qwen3-VL-Plus |
-| ----------------------------- | :-------------: | :----------------: | :-----------: |
-| Browser / Web (31)            |    28 (90%)     |      21 (68%)      |   18 (58%)    |
-| Fuzzy descriptions (10)       |     8 (80%)     |      3 (30%)       |    3 (30%)    |
-| File management (7)           |     5 (71%)     |      3 (43%)       |    4 (57%)    |
-| WeChat (6)                    |     5 (83%)     |      4 (67%)       |    2 (33%)    |
-| WeCom / Feishu / DingTalk (6) |    6 (100%)     |      5 (83%)       |    3 (50%)    |
-| System settings (6)           |     3 (50%)     |      5 (83%)       |    3 (50%)    |
-| WPS / Office (5)              |    5 (100%)     |      2 (40%)       |    0 (0%)     |
-| No open hint (5)              |     4 (80%)     |      3 (60%)       |    2 (40%)    |
-| Notes / Reminders (4)         |    4 (100%)     |      2 (50%)       |    0 (0%)     |
-| System utilities (3)          |    3 (100%)     |      3 (100%)      |    1 (33%)    |
-| Long chains (10)              |     8 (80%)     |      3 (30%)       |    2 (20%)    |
-| Cross-app (5)                 |     3 (60%)     |      1 (20%)       |    0 (0%)     |
+| Category                      | Mano-CUA(Cloud) | Mano-CUA-Instruct-4B | Mano-CUA-Thinking-4B | Qwen3-VL-Plus |
+| ----------------------------- | :-------------: | :------------------: | :------------------: | :-----------: |
+| Browser / Web (31)            |    28 (90%)     |       23 (74%)       |       21 (68%)       |   18 (58%)    |
+| Fuzzy descriptions (10)       |     8 (80%)     |       3 (30%)        |       3 (30%)        |    3 (30%)    |
+| File management (7)           |     5 (71%)     |       3 (43%)        |       3 (43%)        |    4 (57%)    |
+| WeChat (6)                    |     5 (83%)     |       2 (33%)        |       4 (67%)        |    2 (33%)    |
+| WeCom / Feishu / DingTalk (6) |    6 (100%)     |       2 (33%)        |       5 (83%)        |    3 (50%)    |
+| System settings (6)           |     3 (50%)     |       3 (50%)        |       5 (83%)        |    3 (50%)    |
+| WPS / Office (5)              |    5 (100%)     |        0 (0%)        |       2 (40%)        |    0 (0%)     |
+| No open hint (5)              |     4 (80%)     |       1 (20%)        |       3 (60%)        |    2 (40%)    |
+| Notes / Reminders (4)         |    4 (100%)     |       2 (50%)        |       2 (50%)        |    0 (0%)     |
+| System utilities (3)          |    3 (100%)     |       3 (100%)       |       3 (100%)       |    1 (33%)    |
+| Long chains (10)              |     8 (80%)     |       3 (30%)        |       3 (30%)        |    2 (20%)    |
+| Cross-app (5)                 |     3 (60%)     |        0 (0%)        |       1 (20%)        |    0 (0%)     |
 
 **Mano-CUA 1.1 + Bash Tool**
 

@@ -20,7 +20,7 @@
 
 中文 | <a href="README.md">English</a>
 
-**[📖 项目概述](#-项目概述) | [🎯 核心亮点](#-核心亮点) | [🎬 应用场景](#-应用场景展示) | [📊 基准测试](#-基准测试性能) | [🔧 Skills](#-skills) | [🤖 模型](#-模型) | [⚡ 推理加速 SDK](#-推理加速-sdk) | [⚗️ 方法](#-方法) | [🌟 技术优势](#-技术优势) | [🔗 应用](#-应用) | [📄 论文引用](#-技术论文与引用) | [❓ FAQ](#-常见问题)**
+**[📖 项目概述](#-项目概述) | [🎯 核心亮点](#-核心亮点) | [🚀 快速开始](#-快速开始) | [🎬 应用场景](#-应用场景展示) | [📊 基准测试](#-基准测试性能) | [🔧 Skills](#-skills) | [🤖 模型](#-模型) | [⚡ 推理加速 SDK](#-推理加速-sdk) | [⚗️ 方法](#-方法) | [🌟 技术优势](#-技术优势) | [🔗 应用](#-应用) | [📄 论文引用](#-技术论文与引用) | [❓ FAQ](#-常见问题)**
 
 </div>
 
@@ -66,6 +66,31 @@ Mano-P 基于完整的 Mano 项目技术体系（详见 [Mano Technical Report](
 - **长任务自主执行**：支持**复杂业务流程**的端到端自动化，无需联网
 - **端侧 INT8 加速**：配套 [Cider](#-推理加速-sdk) SDK 补齐了 MLX 原生缺失的 W8A8 / W4A8 激活量化原语，在 Apple M5 Pro 上相对 MLX 原生 W4A16 实现 **1.4x–2.2x 的 prefill 加速**——兼容任意 MLX 模型，并非 Mano-P 专属
 - **自主软件构建**：[Mano-AFK](#-应用) 以 Mano-P 为本地视觉模型驱动真实浏览器 E2E 测试，打通 PRD → 代码 → 部署 → 测试 → 修复的完整闭环，从一句自然语言描述到可运行、已测试的应用，全程零人工介入
+
+---
+
+## 🚀 快速开始
+
+两分钟在 Mac 上把 Mano-P 跑起来——完整说明见 [🔧 Skills](#-skills)：
+
+```bash
+# 通过 Homebrew 安装 CLI
+brew tap Mininglamp-AI/tap
+brew install mano-cua
+
+# 云端模式运行任务（默认，无需额外配置）
+mano-cua run "打开 Safari 并搜索 Python"
+
+# 或完全在设备本地运行（macOS Apple Silicon）——首次需一次性安装：
+mano-cua check
+mano-cua install-sdk
+mano-cua install-model
+
+# ……之后加 --local 即可：截图与任务数据不离开设备
+mano-cua run "打开 Safari 并搜索 Python" --local
+```
+
+> **首次运行**：请在 *系统设置 → 隐私与安全性* 中为你的终端 App 授予**屏幕录制**与**辅助功能**权限。
 
 ---
 
@@ -152,6 +177,8 @@ https://github.com/user-attachments/assets/5215d4eb-4e6f-4e03-b31b-dc8037c3794d
 <summary>📊 展开评测数据</summary>
 
 #### Video-SME-2
+
+![Video-SME-2 评测结果](./pics/Video-SME-2.png)
 
 <table>
   <thead>
@@ -575,6 +602,8 @@ https://github.com/user-attachments/assets/5215d4eb-4e6f-4e03-b31b-dc8037c3794d
 
 #### MIT1003 & SalECI
 
+![MIT1003 & SalECI 评测结果](./pics/MIT1003-SalECI.png)
+
 <table>
   <thead>
     <tr>
@@ -712,6 +741,8 @@ https://github.com/user-attachments/assets/5215d4eb-4e6f-4e03-b31b-dc8037c3794d
 
 #### ETMD
 
+![ETMD 评测结果](./pics/ETMD.png)
+
 ##### **Saliency Metrics**
 
 <table>
@@ -820,6 +851,8 @@ https://github.com/user-attachments/assets/5215d4eb-4e6f-4e03-b31b-dc8037c3794d
 _Avg. Tokens/img_ 表示每张图片的平均视觉 token 保留率；值越低表示剪枝越激进。
 
 **GSPruning** 是一种新型的token剪枝方法，专为视觉语言模型设计，通过保留全局空间锚点维持网页结构骨架，并识别语义异常值来捕获关键UI元素，从而高效处理高分辨率网页界面。该方法在性能损失极小的情况下实现了2-3倍的吞吐量提升，为构建高效的自主网页智能体设立了新的技术标杆。
+
+![Online-Mind2Web 评测结果](./pics/Online-Mind2Web.png)
 
 <table>
   <thead>
@@ -1666,6 +1699,8 @@ brew tap Mininglamp-AI/tap && brew install mano-cua
 3. 提交你的更改 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 开启一个 Pull Request
+
+> **注意**：`README.md` 与 `README_CN.md` 是并行维护的——修改任意一份必须同步修改另一份。
 
 ### 贡献方向
 

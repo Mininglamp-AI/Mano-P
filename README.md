@@ -944,15 +944,14 @@ Comparison of four inference configurations on 100 real-machine macOS GUI tasks 
 
 **Overall Metrics**
 
-| Metric            | Mano-CUA(Cloud) | Mano-CUA-Instruct-4B | Mano-CUA-2.0-4B | Qwen3-VL-Plus |
+| Metric            | Mano-CUA(Cloud) | Mano-CUA-1.0-4B | Mano-CUA-2.0-4B | Qwen3-VL-Plus |
 | ----------------- | :-------------: | :------------------: | :-------------: | :-----------: |
 | Pass rate         |      83.0%      |        47.0%         |      56.0%      |     39.0%     |
-| Avg steps / task  |      10.3       |         7.5          |      11.5       |     11.2      |
 | Avg time per step |      9.3s       |         8.0s         |      7.9s       |     10.2s     |
 
 **Difficulty Tiers**
 
-| Tier | Tasks | Mano-CUA(Cloud) | Mano-CUA-Instruct-4B | Mano-CUA-2.0-4B | Qwen3-VL-Plus |
+| Tier | Tasks | Mano-CUA(Cloud) | Mano-CUA-1.0-4B | Mano-CUA-2.0-4B | Qwen3-VL-Plus |
 | ---- | :---: | :-------------: | :------------------: | :-------------: | :-----------: |
 | A    |  25   |   23/25 (92%)   |     21/25 (84%)      |   22/25 (88%)   |  18/25 (72%)  |
 | B    |  45   |   37/45 (82%)   |     18/45 (40%)      |   24/45 (53%)   |  14/45 (31%)  |
@@ -960,7 +959,7 @@ Comparison of four inference configurations on 100 real-machine macOS GUI tasks 
 
 **Per Category**
 
-| Category                      | Mano-CUA(Cloud) | Mano-CUA-Instruct-4B | Mano-CUA-2.0-4B | Qwen3-VL-Plus |
+| Category                      | Mano-CUA(Cloud) | Mano-CUA-1.0-4B | Mano-CUA-2.0-4B | Qwen3-VL-Plus |
 | ----------------------------- | :-------------: | :------------------: | :-------------: | :-----------: |
 | Browser / Web (31)            |    28 (90%)     |       23 (74%)       |    21 (68%)     |   18 (58%)    |
 | Fuzzy descriptions (10)       |     8 (80%)     |       3 (30%)        |     3 (30%)     |    3 (30%)    |

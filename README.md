@@ -20,14 +20,14 @@
 
 <a href="README_CN.md">中文</a> | English
 
-**[📖 Overview](#-overview) | [🎯 Key Highlights](#-key-highlights) | [🎬 Use Cases](#-use-case-demonstrations) | [📊 Benchmark](#-benchmark-performance) | [🔧 Skills](#-skills) | [🤖 Models](#-models) | [⚡ Inference SDK](#-inference-sdk) | [⚗️ Approach](#-approach) | [🌟 Technical Advantages](#-technical-advantages) | [🔗 Applications](#-applications) | [📄 Citation](#-technical-papers--citation) | [❓ FAQ](#-faq)**
+**[📖 Overview](#-overview) | [🎯 Key Highlights](#-key-highlights) | [🚀 Quick Start](#-quick-start) | [🎬 Use Cases](#-use-case-demonstrations) | [📊 Benchmark](#-benchmark-performance) | [🔧 Skills](#-skills) | [🤖 Models](#-models) | [⚡ Inference SDK](#-inference-sdk) | [⚗️ Approach](#-approach) | [🌟 Technical Advantages](#-technical-advantages) | [🔗 Applications](#-applications) | [📄 Citation](#-technical-papers--citation) | [❓ FAQ](#-faq)**
 
 </div>
 
 ---
 
 <div align="center">
-  <a href="https://ccnt9oddmvfr.feishu.cn/wiki/QUwbwmUwriHdL4kkyqPcWNaPn9c" target="_blank">
+  <a href="#-benchmark-performance">
     <img src="pics/Benchmark_Overview.png" alt="GUI Agent Grounding Benchmark" style="max-width: 100%; height: auto;">
   </a>
 </div>
@@ -67,6 +67,31 @@ Mano-P builds upon the complete technical framework of the Mano project (see [Ma
 - **Autonomous Long-Task Execution**: Supports **complex business processes** with end-to-end automation without internet connectivity
 - **Edge-Native INT8 Acceleration**: Companion [Cider](#-inference-sdk) SDK adds the W8A8 / W4A8 activation-quantization primitives MLX lacks natively, delivering **1.4x–2.2x prefill speedup** over MLX W4A16 on Apple M5 Pro — works with any MLX model, not just Mano-P
 - **Autonomous Software Construction**: [Mano-AFK](#-applications) drives a full PRD → code → deploy → test → fix loop using Mano-P as its local vision model for real-browser E2E testing — from a single natural-language prompt to a deployed, tested application, no human in the loop
+
+---
+
+## 🚀 Quick Start
+
+Get Mano-P running on your Mac in two minutes — see [🔧 Skills](#-skills) for full details:
+
+```bash
+# Install the CLI via Homebrew
+brew tap Mininglamp-AI/tap
+brew install mano-cua
+
+# Run a task in cloud mode (default, no extra setup)
+mano-cua run "Open Safari and search for Python"
+
+# Or run fully on-device (macOS Apple Silicon) — one-time setup:
+mano-cua check
+mano-cua install-sdk
+mano-cua install-model
+
+# …then add --local: screenshots and task data never leave your device
+mano-cua run "Open Safari and search for Python" --local
+```
+
+> **First run**: grant **Screen Recording** and **Accessibility** permissions to your terminal app in *System Settings → Privacy & Security*.
 
 ---
 
@@ -153,6 +178,8 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
 <summary>📊 Expand Evaluation Data</summary>
 
 #### Video-SME-2
+
+![Video-SME-2 results](./pics/Video-SME-2.png)
 
 <table>
   <thead>
@@ -576,6 +603,8 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
 
 #### MIT1003 & SalECI
 
+![MIT1003 & SalECI results](./pics/MIT1003-SalECI.png)
+
 <table>
   <thead>
     <tr>
@@ -713,6 +742,8 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
 
 #### ETMD
 
+![ETMD results](./pics/ETMD.png)
+
 ##### **Saliency Metrics**
 
 <table>
@@ -821,6 +852,8 @@ This video demonstrates the combined capability of [Mano-AFK](#-applications) an
 _Avg. Tokens/img_ represents the average visual token retention rate per image; lower values indicate more aggressive pruning.
 
 **GSPruning** is a novel token pruning method designed for Vision-Language Models to efficiently process high-resolution web interfaces by preserving global spatial structure through anchor points and identifying semantic outliers for critical UI elements. It achieves 2-3× throughput speedup with minimal performance loss, enabling more efficient autonomous web agents.
+
+![Online-Mind2Web results](./pics/Online-Mind2Web.png)
 
 <table>
   <thead>
@@ -1668,6 +1701,8 @@ We welcome community contributions! If you want to contribute to the project:
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+> **Note**: `README.md` and `README_CN.md` are maintained in parallel — any change to one must be mirrored in the other.
 
 ### Contribution Areas
 
